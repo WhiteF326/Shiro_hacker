@@ -1,0 +1,402 @@
+[
+    {
+        "input": 1,
+        "output": 206
+    },
+    {
+        "input": 2,
+        "output": 412
+    },
+    {
+        "input": 3,
+        "output": 618
+    },
+    {
+        "input": 4,
+        "output": 824
+    },
+    {
+        "input": 5,
+        "output": 1030
+    },
+    {
+        "input": 6,
+        "output": 1236
+    },
+    {
+        "input": 7,
+        "output": 1442
+    },
+    {
+        "input": 8,
+        "output": 1648
+    },
+    {
+        "input": 9,
+        "output": 1854
+    },
+    {
+        "input": 10,
+        "output": 2060
+    },
+    {
+        "input": 11,
+        "output": 2266
+    },
+    {
+        "input": 12,
+        "output": 2472
+    },
+    {
+        "input": 13,
+        "output": 2678
+    },
+    {
+        "input": 14,
+        "output": 2884
+    },
+    {
+        "input": 15,
+        "output": 3090
+    },
+    {
+        "input": 16,
+        "output": 3296
+    },
+    {
+        "input": 17,
+        "output": 3502
+    },
+    {
+        "input": 18,
+        "output": 3708
+    },
+    {
+        "input": 19,
+        "output": 3914
+    },
+    {
+        "input": 20,
+        "output": 4120
+    },
+    {
+        "input": 21,
+        "output": 4326
+    },
+    {
+        "input": 22,
+        "output": 4532
+    },
+    {
+        "input": 23,
+        "output": 4738
+    },
+    {
+        "input": 24,
+        "output": 4944
+    },
+    {
+        "input": 25,
+        "output": 5150
+    },
+    {
+        "input": 26,
+        "output": 5356
+    },
+    {
+        "input": 27,
+        "output": 5562
+    },
+    {
+        "input": 28,
+        "output": 5768
+    },
+    {
+        "input": 29,
+        "output": 5974
+    },
+    {
+        "input": 30,
+        "output": 6180
+    },
+    {
+        "input": 31,
+        "output": 6386
+    },
+    {
+        "input": 32,
+        "output": 6592
+    },
+    {
+        "input": 33,
+        "output": 6798
+    },
+    {
+        "input": 34,
+        "output": 7004
+    },
+    {
+        "input": 35,
+        "output": 7210
+    },
+    {
+        "input": 36,
+        "output": 7416
+    },
+    {
+        "input": 37,
+        "output": 7622
+    },
+    {
+        "input": 38,
+        "output": 7828
+    },
+    {
+        "input": 39,
+        "output": 8034
+    },
+    {
+        "input": 40,
+        "output": 8240
+    },
+    {
+        "input": 41,
+        "output": 8446
+    },
+    {
+        "input": 42,
+        "output": 8652
+    },
+    {
+        "input": 43,
+        "output": 8858
+    },
+    {
+        "input": 44,
+        "output": 9064
+    },
+    {
+        "input": 45,
+        "output": 9270
+    },
+    {
+        "input": 46,
+        "output": 9476
+    },
+    {
+        "input": 47,
+        "output": 9682
+    },
+    {
+        "input": 48,
+        "output": 9888
+    },
+    {
+        "input": 49,
+        "output": 10094
+    },
+    {
+        "input": 50,
+        "output": 10300
+    },
+    {
+        "input": 51,
+        "output": 10506
+    },
+    {
+        "input": 52,
+        "output": 10712
+    },
+    {
+        "input": 53,
+        "output": 10918
+    },
+    {
+        "input": 54,
+        "output": 11124
+    },
+    {
+        "input": 55,
+        "output": 11330
+    },
+    {
+        "input": 56,
+        "output": 11536
+    },
+    {
+        "input": 57,
+        "output": 11742
+    },
+    {
+        "input": 58,
+        "output": 11948
+    },
+    {
+        "input": 59,
+        "output": 12154
+    },
+    {
+        "input": 60,
+        "output": 12360
+    },
+    {
+        "input": 61,
+        "output": 12566
+    },
+    {
+        "input": 62,
+        "output": 12772
+    },
+    {
+        "input": 63,
+        "output": 12978
+    },
+    {
+        "input": 64,
+        "output": 13184
+    },
+    {
+        "input": 65,
+        "output": 13390
+    },
+    {
+        "input": 66,
+        "output": 13596
+    },
+    {
+        "input": 67,
+        "output": 13802
+    },
+    {
+        "input": 68,
+        "output": 14008
+    },
+    {
+        "input": 69,
+        "output": 14214
+    },
+    {
+        "input": 70,
+        "output": 14420
+    },
+    {
+        "input": 71,
+        "output": 14626
+    },
+    {
+        "input": 72,
+        "output": 14832
+    },
+    {
+        "input": 73,
+        "output": 15038
+    },
+    {
+        "input": 74,
+        "output": 15244
+    },
+    {
+        "input": 75,
+        "output": 15450
+    },
+    {
+        "input": 76,
+        "output": 15656
+    },
+    {
+        "input": 77,
+        "output": 15862
+    },
+    {
+        "input": 78,
+        "output": 16068
+    },
+    {
+        "input": 79,
+        "output": 16274
+    },
+    {
+        "input": 80,
+        "output": 16480
+    },
+    {
+        "input": 81,
+        "output": 16686
+    },
+    {
+        "input": 82,
+        "output": 16892
+    },
+    {
+        "input": 83,
+        "output": 17098
+    },
+    {
+        "input": 84,
+        "output": 17304
+    },
+    {
+        "input": 85,
+        "output": 17510
+    },
+    {
+        "input": 86,
+        "output": 17716
+    },
+    {
+        "input": 87,
+        "output": 17922
+    },
+    {
+        "input": 88,
+        "output": 18128
+    },
+    {
+        "input": 89,
+        "output": 18334
+    },
+    {
+        "input": 90,
+        "output": 18540
+    },
+    {
+        "input": 91,
+        "output": 18746
+    },
+    {
+        "input": 92,
+        "output": 18952
+    },
+    {
+        "input": 93,
+        "output": 19158
+    },
+    {
+        "input": 94,
+        "output": 19364
+    },
+    {
+        "input": 95,
+        "output": 19570
+    },
+    {
+        "input": 96,
+        "output": 19776
+    },
+    {
+        "input": 97,
+        "output": 19982
+    },
+    {
+        "input": 98,
+        "output": 20188
+    },
+    {
+        "input": 99,
+        "output": 20394
+    },
+    {
+        "input": 100,
+        "output": 20600
+    }
+]

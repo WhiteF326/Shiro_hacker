@@ -1,0 +1,16 @@
+{
+    "Name": "Hello hackers",
+    "Level": 0,
+    "Difficulty": -1,
+    "JP": {
+        "text": "Hello World!を出力してください。",
+        "condition": null,
+        "input": null,
+        "output": "Hello World!を出力し、最後に改行してください。",
+        "samples": [
+            {"input": "",
+            "output": "Hello World!",
+            "clar": "ようこそ。"}
+        ]
+    }
+}
