@@ -1,5 +1,5 @@
 const fs = require("fs");
-let writeobj = [];
+let writeobj = JSON.parse(fs.readFileSync("..\\Testcases\\0003.json"));
 
 for(let i = 1; i <= 100; i++){
     writeobj.push(
@@ -7,4 +7,4 @@ for(let i = 1; i <= 100; i++){
         "output": i * 206}
     );
 }
-fs.writeFileSync("..\\Testcases\\0002.json", JSON.stringify(writeobj));
+fs.writeFileSync("..\\Testcases\\0003.json", JSON.stringify(writeobj));
