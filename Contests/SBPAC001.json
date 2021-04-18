@@ -1,8 +1,15 @@
 {
     "sets": [
-        {"filename": "0003.json",
-        "No": "A",
-        "Score": "100"}
+        {
+            "filename": "0003.json",
+            "No": "A",
+            "Score": "100"
+        },
+        {
+            "filename": "0004.json",
+            "No": "B",
+            "Score": "200"
+        }
     ],
     "starts": "2021-03-26",
     "time": "6000"

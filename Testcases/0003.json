@@ -1,0 +1,162 @@
+[
+    {
+        "input": 285,
+        "output": 183
+    },
+    {
+        "input": 199,
+        "output": 70
+    },
+    {
+        "input": 406,
+        "output": 62
+    },
+    {
+        "input": 75,
+        "output": 18
+    },
+    {
+        "input": 133,
+        "output": 69
+    },
+    {
+        "input": 144,
+        "output": 36
+    },
+    {
+        "input": 419,
+        "output": 49
+    },
+    {
+        "input": 437,
+        "output": 31
+    },
+    {
+        "input": 420,
+        "output": 48
+    },
+    {
+        "input": 123,
+        "output": 99
+    },
+    {
+        "input": 287,
+        "output": 181
+    },
+    {
+        "input": 310,
+        "output": 158
+    },
+    {
+        "input": 227,
+        "output": 14
+    },
+    {
+        "input": 134,
+        "output": 66
+    },
+    {
+        "input": 357,
+        "output": 111
+    },
+    {
+        "input": 152,
+        "output": 12
+    },
+    {
+        "input": 428,
+        "output": 40
+    },
+    {
+        "input": 245,
+        "output": 223
+    },
+    {
+        "input": 363,
+        "output": 105
+    },
+    {
+        "input": 221,
+        "output": 26
+    },
+    {
+        "input": 15,
+        "output": 3
+    },
+    {
+        "input": 233,
+        "output": 2
+    },
+    {
+        "input": 86,
+        "output": 38
+    },
+    {
+        "input": 279,
+        "output": 189
+    },
+    {
+        "input": 131,
+        "output": 75
+    },
+    {
+        "input": 134,
+        "output": 66
+    },
+    {
+        "input": 372,
+        "output": 96
+    },
+    {
+        "input": 68,
+        "output": 60
+    },
+    {
+        "input": 408,
+        "output": 60
+    },
+    {
+        "input": 367,
+        "output": 101
+    },
+    {
+        "input": 429,
+        "output": 39
+    },
+    {
+        "input": 10,
+        "output": 8
+    },
+    {
+        "input": 80,
+        "output": 68
+    },
+    {
+        "input": 346,
+        "output": 122
+    },
+    {
+        "input": 196,
+        "output": 76
+    },
+    {
+        "input": 397,
+        "output": 71
+    },
+    {
+        "input": 282,
+        "output": 186
+    },
+    {
+        "input": 217,
+        "output": 34
+    },
+    {
+        "input": 249,
+        "output": 219
+    },
+    {
+        "input": 26,
+        "output": 0
+    }
+]
