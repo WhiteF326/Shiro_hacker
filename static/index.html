@@ -55,7 +55,7 @@
         updateTarget.appendChild(document.createElement("br"));
 
         const contestLink = document.createElement("button");
-        contestLink.setAttribute("onclick", "moveTo(\"contest.html\", null)");
+        contestLink.addEventListener("click", function(){moveTo("contestForm", {"contestFormFileName": contestName.name})});
 
         contestLink.appendChild(document.createTextNode(contestInstance.name));
 
@@ -65,8 +65,9 @@
 
     // ページ遷移
     function moveTo(url, prm){
-      const contestForm = document.getElementById("contestForm");
-      document.getElementById("contestFormFileName").setAttribute("value", prm.name);
+      const contestForm = document.getElementById(url);
+      for(let key in prm) document.getElementById(key).setAttribute("value", prm[key]);
+      contestForm.submit();
     }
   </script>
 
@@ -148,6 +149,7 @@
   <div style="display: none;">
     <form id="contestForm" action="contest.html" method="POST">
       <input name="fileName" type="text" id="contestFormFileName">
+      <button type="submit"></button>
     </form>
   </div>
 
