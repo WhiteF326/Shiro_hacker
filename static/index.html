@@ -1,93 +1,160 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async defer></script>
-    <link rel="stylesheet" href="header.css" type="text.css">
-    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
-    <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
-    <title>Shiro_hacker</title>
-  </head>
 
-  <body>
+<head>
+  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async defer></script>
+  <link rel="stylesheet" href="header.css" type="text.css">
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+  <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
+  <title>Shiro_hacker</title>
+</head>
 
-    <span>
-      <span style="display: inline-block;">
-        <h6>Everyone to be enforced.</h6>
-        <h3>Shiro_hacker</h3>
-      </span>
-      <span style="display: inline-block; width: 20%;"></span>
-      <span style="display: inline-block;">
-        <p>Contact: <a href="mailto:lume1a326.leno@gmail.com">lume1a326.leno@gmail.com</a></p>
-        <p>Twitter: <a href="https://twitter.com/shiroha_F14" target="_blank">@shiroha_F14</a></p>
-      </span>
-    </span>
-    <hr>
-    <!-- <video src="materials/Banner.mp4" autoplay loop></video> -->
-    <h1 style="display: block;">Shiro_hacker</h1>
-    <p>
-      そこら辺のエンジニアである白羽(
-      <a href="https://twitter.com/shiroha_F14" target="_blank">@shiroha_F14</a>
-      )が制作した競技プログラミングのサイトです。<br>
-      運営目的としては、本格的な競技プログラミングに向けての練習を主としております。
-    </p>
+<body>
 
-    <hr>
-    <div style="display: block; margin-top: 20px;">
-      <span>
-        <h2 style="display: inline;">Tutorial</h2>
-        <h4 style="display: inline;">初めての方へ</h4>
-      </span>
-      <!--  -->
-    </div>
+  <script type="module">
+    import ky from "./modules//ky.js";
+    import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
 
-    <hr>
-    <div style="display: block; margin-top: 20px;">
-      <span>
-        <h2 style="display: inline;">User Data</h2>
-        <h4 style="display: inline;">ユーザーデータ</h4>
-      </span>
-      <!--  -->
-    </div>
-    
-    <hr>
-    <div style="display: block; margin-top: 20px;">
-      <span>
-        <h2 style="display: inline;">Upcoming Contests</h2>
-        <h4 style="display: inline;">今後のコンテスト</h4>
-      </span>
-      <!--  -->
-    </div>
-    
-    <hr>
-    <div style="display: block; margin-top: 20px;">
-      <span>
-        <h2 style="display: inline;">Recent Contests</h2>
-        <h4 style="display: inline;">過去のコンテスト</h4>
-      </span>
-      <!--  -->
-    </div>
+    function makeDate(dayString) {
+      const retobj = new Date();
+      retobj.setUTCFullYear(parseInt(dayString.split(" ")[0].split("-")[1]));
+      retobj.setUTCMonth(parseInt(dayString.split(" ")[0].split("-")[1]));
+      retobj.setUTCDate(parseInt(dayString.split(" ")[0].split("-")[2]));
+      retobj.setUTCHours(parseInt(dayString.split(" ")[1].split(":")[0]));
+      retobj.setUTCMinutes(parseInt(dayString.split(" ")[1].split(":")[1]));
+      retobj.setUTCSeconds(parseInt(dayString.split(" ")[1].split(":")[2]));
+      return retobj
+    }
 
-    <hr>
-    <div style="display: block; margin-top: 20px;">
-      <span>
-        <h2 style="display: inline;">Problems List</h2>
-        <h4 style="display: inline;">過去問一覧</h4>
-      </span>
-      <!--  -->
-    </div>
+    window.onload = async () => {
+      const jsCurrentDate = new Date();
+      // const currentDate = {
+      //   "year": jsCurrentDate.getUTCFullYear(),
+      //   "month": jsCurrentDate.getUTCMonth() + 1,
+      //   "date": jsCurrentDate.getUTCDate(),
+      //   "hour": jsCurrentDate.getUTCHours(),
+      //   "minute": jsCurrentDate.getUTCMinutes(),
+      //   "second": jsCurrentDate.getUTCSeconds(),
+      // }
+      // 全コンテストの取得
+      const contestsList = await fetchJSON("api/contests/list", {});
 
-    <hr>
-    <div style="display: block; margin-top: 20px;">
-      <span>
-        <h2 style="display: inline;">Create Problems</h2>
-        <h4 style="display: inline;">問題投稿</h4>
-      </span>
-      <!--  -->
-    </div>
-    
-  </body>
+      contestsList.forEach(async contestName => {
+        // 各コンテスト情報の取得
+        const contestInstanceText = await fetchJSON("api/contests/search", { "name": contestName.name });
+        const contestInstance = JSON.parse(contestInstanceText);
+        // 開催日時による振り分け
+        const contestDate = makeDate(contestInstance.starts);
+        let updateTarget = null;
+        if (contestDate > jsCurrentDate) {
+          updateTarget = document.getElementById("recentContests");
+        } else {
+          updateTarget = document.getElementById("upcomingContests");
+        }
 
-  <script>
-    //
+        updateTarget.appendChild(document.createElement("br"));
+
+        const contestLink = document.createElement("button");
+        contestLink.setAttribute("onclick", "moveTo(\"contest.html\", null)");
+
+        contestLink.appendChild(document.createTextNode(contestInstance.name));
+
+        updateTarget.appendChild(contestLink);
+      });
+    }
+
+    // ページ遷移
+    function moveTo(url, prm){
+      const contestForm = document.getElementById("contestForm");
+      document.getElementById("contestFormFileName").setAttribute("value", prm.name);
+    }
   </script>
+
+  <span>
+    <span style="display: inline-block;">
+      <h6>Everyone to be enforced.</h6>
+      <h3>Shiro_hacker</h3>
+    </span>
+    <span style="display: inline-block; width: 20%;"></span>
+    <span style="display: inline-block;">
+      <p>Contact: <a href="mailto:lume1a326.leno@gmail.com">lume1a326.leno@gmail.com</a></p>
+      <p>Twitter: <a href="https://twitter.com/shiroha_F14" target="_blank">@shiroha_F14</a></p>
+    </span>
+  </span>
+  <hr>
+  <!-- <video src="materials/Banner.mp4" autoplay loop></video> -->
+  <h1 style="display: block;">Shiro_hacker</h1>
+  <p>
+    そこら辺のエンジニアである白羽(
+    <a href="https://twitter.com/shiroha_F14" target="_blank">@shiroha_F14</a>
+    )が制作した競技プログラミングのサイトです。<br>
+    運営目的としては、本格的な競技プログラミングに向けての練習を主としております。
+  </p>
+
+  <hr>
+  <div style="display: block; margin-top: 20px;">
+    <span>
+      <h2 style="display: inline;">Tutorial</h2>
+      <h4 style="display: inline;">初めての方へ</h4>
+    </span>
+    <!--  -->
+  </div>
+
+  <hr>
+  <div style="display: block; margin-top: 20px;">
+    <span>
+      <h2 style="display: inline;">User Data</h2>
+      <h4 style="display: inline;">ユーザーデータ</h4>
+    </span>
+    <!--  -->
+  </div>
+
+  <hr>
+  <div style="display: block; margin-top: 20px;" id="upcomingContests">
+    <span>
+      <h2 style="display: inline;">Upcoming Contests</h2>
+      <h4 style="display: inline;">今後のコンテスト</h4>
+    </span>
+    <!--  -->
+  </div>
+
+  <hr>
+  <div style="display: block; margin-top: 20px;" id="recentContests">
+    <span>
+      <h2 style="display: inline;">Recent Contests</h2>
+      <h4 style="display: inline;">過去のコンテスト</h4>
+    </span>
+    <!--  -->
+  </div>
+
+  <hr>
+  <div style="display: block; margin-top: 20px;">
+    <span>
+      <h2 style="display: inline;">Problems List</h2>
+      <h4 style="display: inline;">過去問一覧</h4>
+    </span>
+    <!--  -->
+  </div>
+
+  <hr>
+  <div style="display: block; margin-top: 20px;">
+    <span>
+      <h2 style="display: inline;">Create Problems</h2>
+      <h4 style="display: inline;">問題投稿</h4>
+    </span>
+    <!--  -->
+  </div>
+
+  <div style="display: none;">
+    <form id="contestForm" action="contest.html" method="POST">
+      <input name="fileName" type="text" id="contestFormFileName">
+    </form>
+  </div>
+
+</body>
+
+<script>
+    //
+</script>
+
 </html>
