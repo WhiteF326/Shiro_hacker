@@ -2,9 +2,10 @@ const fs = require("fs");
 let writeobj = [];
 
 for(let i = 1; i <= 30; i++){
-    let a = Math.floor(Math.random() * 400);
-    let b = Math.floor(Math.random() * 400);
-    let c = Math.floor(Math.random() * 400);
+    let n = Math.floor(Math.random() * 400);        //ここ素数
+    let a = Math.min(Math.floor(Math.random() * n * 400), 4000000);
+    let b = Math.min(Math.floor(Math.random() * n * 400), 4000000);
+    let c = Math.min(Math.floor(Math.random() * n * 400), 4000000);
 
     let ans = 0;
     for(let i = 1; i <= a; i++){
@@ -15,7 +16,7 @@ for(let i = 1; i <= 30; i++){
         }
     }
 
-    let e = a + " " + b + " " + c;
+    let e = a + " " + b + " " + c + "\n" + n;
     
     writeobj.push(
         {"input": e,
