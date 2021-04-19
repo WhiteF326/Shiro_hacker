@@ -1,10 +1,11 @@
 {
+  "visible": true,
   "name": "だみー",
   "sets": [
       {
           "filename": "0001.json",
-          "No": "A",
-          "Score": "100"
+          "no": "A",
+          "score": "100"
       }
   ],
   "starts": "2029-01-01 12:00:00",

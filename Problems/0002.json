@@ -1,8 +1,8 @@
 {
     "visible": true,
-    "Name": "You are in the zone",
-    "Level": 1,
-    "Difficulty": -1,
+    "name": "You are in the zone",
+    "level": 1,
+    "difficulty": -1,
     "JP": {
         "text": "白羽君の最寄りのコンビニではZ〇Ne Energyというドリンクが206円で売られている。\n白羽君がZ〇Ne Energyをn本買うときの代金を答えよ。\nただし、消費税によるずれを考慮しない。",
         "condition": "1 leq n leq 100",

@@ -1,20 +1,21 @@
 {
+  "visible": true,
   "name": "Shiroha Basic Programming Attributes Contest 001",
   "sets": [
     {
       "filename": "0003.json",
-      "No": "A",
-      "Score": "100"
+      "no": "A",
+      "score": "100"
     },
     {
       "filename": "0004.json",
-      "No": "B",
-      "Score": "200"
+      "no": "B",
+      "score": "200"
     },
     {
       "filename": "0005.json",
-      "No": "C",
-      "Score": "200"
+      "no": "C",
+      "score": "200"
     }
   ],
   "starts": "2021-03-26 12:00:00",

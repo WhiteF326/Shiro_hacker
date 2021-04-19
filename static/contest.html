@@ -13,8 +13,18 @@
     <script type="module">
       import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
       window.onload = async () => {
-        const params = new URL(window.location.href).searchParams;
+        const params = (new URL(window.location.href)).searchParams;
+        const contestDataText = await fetchJSON("api/contests/search", {"name": params.get("fileName")});
+        const contestData = JSON.parse(contestDataText);
 
+        console.log(contestData);
+
+        if(contestData.visible){
+          document.getElementById("contestName").innerText = contestData.name;
+        }else{
+          document.getElementById("contestName").style = "color: red;"
+          document.getElementById("contestName").innerText = "This contest is not open now.\nSorry but push back button of your browser.";
+        }
       }
     </script>
 
@@ -36,6 +46,11 @@
         <h2 style="display: inline;">Contest</h2>
       </span>
       <!--  -->
+    </div>
+
+    <div>
+      <!-- コンテスト情報の表示 -->
+      <h3 id="contestName"></h3>
     </div>
     
   </body>

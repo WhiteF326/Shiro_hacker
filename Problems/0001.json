@@ -1,8 +1,8 @@
 {
     "visible": true,
-    "Name": "Hello hackers",
-    "Level": 0,
-    "Difficulty": -1,
+    "name": "Hello hackers",
+    "level": 0,
+    "difficulty": -1,
     "JP": {
         "text": "Hello World!を出力してください。",
         "condition": null,
