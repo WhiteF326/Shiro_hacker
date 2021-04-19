@@ -3,6 +3,8 @@
     "name": "First Problem - Welcome to SBPAC001 / 468",
     "level": 1,
     "difficulty": -1,
+    "timelimit": 2.000,
+    "memorylimit": 1024,
     "JP": {
         "text": "Shiroha Basic Programming Attributes Contest 001へようこそ！\n今回の問題はA～Lが白羽君の受難、M～Zは白羽君からの挑戦状で構成されています。\n基礎的なアルゴリズムの習得や確認と、活用力の育成にご利用ください。\n\nこれから白羽君には12個の困難に立ち向かっていく運命が待ち受けています。\n始まりの扉を開くのは貴方です。\n入力として正の整数nが与えられます。\n468をnで割った余りが扉の鍵になります。鍵の値を求めてみましょう。",
         "condition": "1 leq n leq 468",

@@ -3,6 +3,8 @@
     "name": "Hello hackers",
     "level": 0,
     "difficulty": -1,
+    "timelimit": 2.000,
+    "memorylimit": 1024,
     "JP": {
         "text": "Hello World!を出力してください。",
         "condition": null,

@@ -1,61 +1,154 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async defer></script>
-    <link rel="stylesheet" href="header.css" type="text.css">
-    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
-    <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
-    <title>Shiro_hacker</title>
-  </head>
 
-  <body>
+<head>
+  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async defer></script>
+  <link rel="stylesheet" href="header.css" type="text.css">
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+  <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
+  <title>Shiro_hacker</title>
+</head>
 
-    <script type="module">
-      import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
-      window.onload = async () => {
-        const params = (new URL(window.location.href)).searchParams;
-        const contestDataText = await fetchJSON("api/contests/search", {"name": params.get("fileName")});
-        const contestData = JSON.parse(contestDataText);
+<body>
 
-        console.log(contestData);
+  <script type="module">
+    import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
+    function makeDate(dayString) {
+      const retobj = new Date();
+      retobj.setUTCFullYear(parseInt(dayString.split(" ")[0].split("-")[0]));
+      retobj.setUTCMonth(parseInt(dayString.split(" ")[0].split("-")[1]) - 1);
+      retobj.setUTCDate(parseInt(dayString.split(" ")[0].split("-")[2]));
+      retobj.setUTCHours(parseInt(dayString.split(" ")[1].split(":")[0]));
+      retobj.setUTCMinutes(parseInt(dayString.split(" ")[1].split(":")[1]));
+      retobj.setUTCSeconds(parseInt(dayString.split(" ")[1].split(":")[2]));
+      return retobj
+    }
 
-        if(contestData.visible){
-          document.getElementById("contestName").innerText = contestData.name;
-        }else{
-          document.getElementById("contestName").style = "color: red;"
-          document.getElementById("contestName").innerText = "This contest is not open now.\nSorry but push back button of your browser.";
-        }
+    window.onload = async () => {
+      // GETパラメータからコンテストファイル名を取得
+      const params = (new URL(window.location.href)).searchParams;
+      let contestDataText = null;
+      try {
+        // コンテストファイルの内容を取得
+        contestDataText = await fetchJSON("api/contests/search", { "name": params.get("fileName") });
+      } catch (err) {
+        // GETパラメータ改変
+        console.log(err);
+        document.getElementById("contestName").style = "color: red;"
+        document.getElementById("contestName").innerText = "It looks like something went wrong.\nSorry but push back button of your browser.";
+        return;
       }
-    </script>
+      const contestData = JSON.parse(contestDataText);
 
-    <span>
-      <span style="display: inline-block;">
-        <h6>Everyone to be enforced.</h6>
-        <h3>Shiro_hacker</h3>
-      </span>
-      <span style="display: inline-block; width: 20%;"></span>
-      <span style="display: inline-block;">
-        <p>Contact: <a href="mailto:lume1a326.leno@gmail.com">lume1a326.leno@gmail.com</a></p>
-        <p>Twitter: <a href="https://twitter.com/shiroha_F14" target="_blank">@shiroha_F14</a></p>
-      </span>
-    </span>
-    <hr>
-    
-    <div style="display: block; margin-top: 20px;">
-      <span>
-        <h2 style="display: inline;">Contest</h2>
-      </span>
-      <!--  -->
-    </div>
+      console.log(contestData);
 
-    <div>
-      <!-- コンテスト情報の表示 -->
-      <h3 id="contestName"></h3>
-    </div>
-    
-  </body>
+      // コンテストは公開状態か？
+      if (contestData.visible) {
+        document.getElementById("contestName").innerText = contestData.name;
+      } else {
+        document.getElementById("contestName").style = "color: red;"
+        document.getElementById("contestName").innerText = "This contest is not open now.\nSorry but push back button of your browser.";
+        return;
+      }
 
-  <script>
-    //
+      const setsTable = document.getElementById("sets");
+      const contestDate = makeDate(contestData.starts);
+      let lineList = [];      //順序確保用
+
+      contestData.sets.forEach(async r => {
+        const problemDataText = await fetchJSON("api/problems/search", { "name": r.filename });
+        const problemData = JSON.parse(problemDataText);
+        const problemLine = document.createElement("tr");
+
+        // コンテストが開催前かどうかで表示内容を変更する
+        if (contestDate > new Date()) {
+          for (let i = 0; i < 5; i++) {
+            const problemCell = document.createElement("td");
+            problemCell.innerText = "???";
+            problemLine.appendChild(problemCell);
+            lineList.push({ "id": "hoge", "body": problemLine })
+          }
+        } else {
+          // 問題番号
+          const problemIdCell = document.createElement("td");
+          problemIdCell.innerText = r.no;
+          problemLine.appendChild(problemIdCell);
+          // 問題名
+          const problemNameCell = document.createElement("td");
+          problemNameCell.innerText = problemData.name;
+          problemLine.appendChild(problemNameCell);
+          // 実行時間制限
+          const problemTimeCell = document.createElement("td");
+          problemTimeCell.innerText = problemData.timelimit + "s";
+          problemLine.appendChild(problemTimeCell);
+          // メモリ制限
+          const problemMemoryCell = document.createElement("td");
+          problemMemoryCell.innerText = problemData.memorylimit + "MB";
+          problemLine.appendChild(problemMemoryCell);
+          // 提出
+          const problemSubmitCell = document.createElement("td");
+          problemSubmitCell.innerText = "提出";
+          problemLine.appendChild(problemSubmitCell);
+          // 最終処理
+          lineList.push({ "id": r.no, "body": problemLine });
+        }
+
+        lineList.sort((a, b) => {
+          if (a.id < b.id) return -1;
+          else if (a.id > b.id) return 1;
+          else return 0;
+        });
+
+        lineList.forEach(r => {
+          sets.appendChild(r.body);
+        });
+
+      });
+    }
   </script>
+
+  <span>
+    <span style="display: inline-block;">
+      <h6>Everyone to be enforced.</h6>
+      <h3>Shiro_hacker</h3>
+    </span>
+    <span style="display: inline-block; width: 20%;"></span>
+    <span style="display: inline-block;">
+      <p>Contact: <a href="mailto:lume1a326.leno@gmail.com">lume1a326.leno@gmail.com</a></p>
+      <p>Twitter: <a href="https://twitter.com/shiroha_F14" target="_blank">@shiroha_F14</a></p>
+    </span>
+  </span>
+  <hr>
+
+  <div style="display: block; margin-top: 20px;">
+    <span>
+      <h2 style="display: inline;">Contest</h2>
+    </span>
+    <!--  -->
+  </div>
+
+  <div>
+    <!-- コンテスト情報の表示 -->
+    <h3 id="contestName"></h3>
+  </div>
+
+  <div>
+    <table id="sets">
+      <tr>
+        <th></th>
+        <th>問題名</th>
+        <th>実行時間制限</th>
+        <th>メモリ制限</th>
+        <th>提出</th>
+      </tr>
+      <!-- コンテスト問題情報の追加 -->
+    </table>
+  </div>
+
+</body>
+
+<script>
+    //
+</script>
+
 </html>
