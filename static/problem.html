@@ -45,6 +45,18 @@
     }
 
     window.onload = async () => {
+      const params = (new URL(window.location.href)).searchParams;
+      // 前の画面へ戻るリンクを作成
+      if(params.get("score") === null){
+        document.getElementById("backToContest").innerText = "問題一覧ページに戻る";
+        document.getElementById("backToContest").addEventListener("click", () => {
+          //
+        });
+      }else{
+        document.getElementById("backToContest").addEventListener("click", () => {
+          //
+        });
+      }
       // 言語一覧のリストボックスを作成
       const languagesListText = await fetchJSON("api/languages", {});
       const languagesList = JSON.parse(languagesListText);
@@ -75,7 +87,6 @@
       }, {passive: false});
 
       // ページ要素の生成
-      const params = (new URL(window.location.href)).searchParams;
       const problemInstanceText = await fetchJSON("api/problems/search", { "name": params.get("fileName") });
       const problemInstance = JSON.parse(problemInstanceText);
       // 問題名
@@ -195,6 +206,10 @@
   <hr>
   <!-- <video src="materials/Banner.mp4" autoplay loop></video> -->
 
+  <span id="backToContest">
+    コンテストに戻る
+  </span>
+
   <div style="display: block; margin-top: 20px;">
     <span>
       <h2 style="display: inline;" id="problemName"></h2>
@@ -246,12 +261,19 @@
     <button id="submitSource">提出</button>
   </div>
 
-  <!-- <div style="display: none;">
-    <form id="problemForm" action="problem.html" method="GET">
-      <input name="fileName" type="text" id="problemFormFileName">
+  <div style="display: none;">
+    <form id="contestForm" action="contest.html" method="GET">
+      <input name="fileName" type="text" id="contestFormFileName">
       <button type="submit"></button>
     </form>
-  </div> -->
+  </div>
+  
+  <div style="display: none;">
+    <form id="submissionForm" action="submission.html" method="GET">
+      <input name="source" type="text" id="submissionFormSource">
+      <button type="submit"></button>
+    </form>
+  </div>
 
 </body>
 
