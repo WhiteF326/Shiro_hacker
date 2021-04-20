@@ -2,7 +2,6 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="header.css" type="text.css">
   <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
   <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
   <title>Shiro_hacker</title>
@@ -77,7 +76,7 @@
           const problemNameLink = document.createElement("span");
           problemNameLink.addEventListener("mouseenter", () => problemNameLink.style = "color: Lightskyblue;");
           problemNameLink.addEventListener("mouseleave", () => problemNameLink.style = "");
-          problemNameLink.addEventListener("click", () => moveTo("problemForm", { "problemFormFileName": r.filename }));
+          problemNameLink.addEventListener("click", () => moveTo("problemForm", { "problemFormFileName": r.filename, "problemScore": r.score }));
           problemNameLink.innerText = problemData.name;
 
           problemNameCell.appendChild(problemNameLink);
@@ -113,6 +112,7 @@
     }
 
     function moveTo(url, prm) {
+      console.log(prm);
       const contestForm = document.getElementById(url);
       for (let key in prm) document.getElementById(key).setAttribute("value", prm[key]);
       contestForm.submit();
@@ -160,6 +160,7 @@
   <div style="display: none;">
     <form id="problemForm" action="problem.html" method="GET">
       <input name="fileName" type="text" id="problemFormFileName">
+      <input name="score" type="text" id="problemScore">
       <button type="submit"></button>
     </form>
   </div>

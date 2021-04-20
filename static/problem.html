@@ -2,20 +2,33 @@
 <html>
 
 <head>
-  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async defer></script>
-  <link rel="stylesheet" href="header.css" type="text.css">
+  <script>
+  MathJax = {
+    chtml: {
+      matchFontHeight: false
+    },
+    tex: {
+      inlineMath: [['$$', '$$']]
+    }
+  };
+  </script>
+  <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML" async defer></script>
   <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
   <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/dracula.min.css"> -->
   <title>Shiro_hacker</title>
 </head>
 
 <style>
-  .MathJax{
+  .MJXc-display{
     text-align: left !important;
   }
+  /* .MJXp-display{
+    text-align: left !important;
+  } */
 </style>
 
-<body>  
+<body>
 
   <script type="module">
     import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
@@ -60,6 +73,91 @@
         }
         // console.log(e.deltaY / 125);
       }, {passive: false});
+
+      // ページ要素の生成
+      const params = (new URL(window.location.href)).searchParams;
+      const problemInstanceText = await fetchJSON("api/problems/search", { "name": params.get("fileName") });
+      const problemInstance = JSON.parse(problemInstanceText);
+      // 問題名
+      document.getElementById("problemName").innerText = problemInstance.name;
+      // 制約
+      document.getElementById("limits").innerText = (
+        "実行時間制限 " + problemInstance.timelimit + "s / " +
+        "メモリ量制限 " + problemInstance.memorylimit + "MB"
+      );
+      // 配点
+      if(params.get("score") !== null){
+        document.getElementById("score").innerText = "配点:" + params.get("score") + "点";
+      }
+      // 問題文
+      problemInstance.JP.text.split("\n").forEach(x => {
+        document.getElementById("problemText").appendChild(document.createTextNode(x));
+        document.getElementById("problemText").appendChild(document.createElement("br"));
+      });
+      // 制約
+      if(problemInstance.JP.condition !== null){
+        problemInstance.JP.condition.split("\n").forEach(x => {
+          document.getElementById("condition_body").appendChild(document.createTextNode("$$" + x + "$$"));
+          document.getElementById("condition_body").appendChild(document.createElement("br"));
+        });
+        MathJax.Hub.Typeset(document.getElementById("condition_body"));
+      }else{
+        document.getElementById("condition").remove();
+      }
+      // 入力
+      if(problemInstance.JP.input !== null){
+        problemInstance.JP.input.split("\n").forEach(x => {
+          document.getElementById("input_body").appendChild(document.createTextNode(x));
+          document.getElementById("input_body").appendChild(document.createElement("br"));
+        });
+        document.getElementById("input_body").style = "border: 1px silver solid; padding: 5px; border-radius: 2px"
+      }else{
+        document.getElementById("input").remove();
+      }
+      // 出力
+      document.getElementById("output").appendChild(document.createTextNode(problemInstance.JP.output));
+      // サンプル
+      if(problemInstance.JP.samples !== null){
+        let sampleCnt = 0;
+        const sampleList = document.getElementById("samples")
+        problemInstance.JP.samples.forEach(eachSample => {
+          sampleCnt++;
+          const sampleSpan = document.createElement("span");
+          // 入力タイトル
+          const inputTitle = document.createElement("h3");
+          inputTitle.innerText = "入力例" + sampleCnt;
+          sampleSpan.appendChild(inputTitle);
+          // 入力データ
+          const inputData = document.createElement("code");
+          inputData.style = "border: 1px silver solid; padding: 5px; border-radius: 2px"
+          eachSample.input.split("\n").forEach(inputDataLine => {
+            inputData.appendChild(document.createTextNode(inputDataLine));
+          });
+          sampleSpan.appendChild(inputData);
+          sampleSpan.appendChild(document.createElement("br"));
+          // 出力タイトル
+          const outputTitle = document.createElement("h3");
+          outputTitle.innerText = "出力例" + sampleCnt;
+          sampleSpan.appendChild(outputTitle);
+          // 出力データ
+          const outputData = document.createElement("code");
+          outputData.style = "border: 1px silver solid; padding: 5px; border-radius: 2px"
+          eachSample.output.split("\n").forEach(outputDataLine => {
+            outputData.appendChild(document.createTextNode(outputDataLine));
+          });
+          sampleSpan.appendChild(outputData);
+          sampleSpan.appendChild(document.createElement("br"));
+          // 解説
+          eachSample.clar.split("\n").forEach(clarTextLine => {
+            sampleSpan.appendChild(document.createTextNode(clarTextLine));
+            sampleSpan.appendChild(document.createElement("br"));
+          });
+          // 最終
+          sampleList.appendChild(sampleSpan);
+          sampleList.appendChild(document.createElement("hr"));
+          
+        });
+      }
     }
 
     // ページ遷移
@@ -101,11 +199,13 @@
     <span>
       <h2 style="display: inline;" id="problemName"></h2>
     </span>
+    <br>
     <span>
-      <h4 style="display: inline;" id="limits"></h4>
+      <h5 style="display: inline;" id="limits"></h5>
     </span>
+    <br>
     <span>
-      <h4 style="display: inline;" id="score"></h4>
+      <h5 style="display: inline;" id="score"></h5>
     </span>
   </div>
 
@@ -116,7 +216,7 @@
     </span>
     <span id="condition">
       <h3>制約</h3>
-      <!-- ここに制約 -->
+      <span id="condition_body"></span>
     </span>
   </div>
 
@@ -124,25 +224,20 @@
   <div>
     <span id="input">
       <h3>入力</h3>
-      入力は以下の形式で標準入力から与えられます。
-      <!-- \[
-      test
-      \] -->
+      入力は以下の形式で標準入力から与えられます。<br>
+      <code id="input_body"></code>
     </span>
-    <span id="input">
+    <span id="output">
       <h3>出力</h3>
       <!-- ここに出力形式 -->
     </span>
   </div>
 
   <hr>
-  <div>
-    <!-- <span id="samples">
-      ここにサンプルを作成
-    </span> -->
+  <div id="samples">
+    <!-- サンプルを生成 -->
   </div>
 
-  <hr>
   <div>
     <h4>言語</h4>
     <select id="language"></select>
@@ -161,7 +256,7 @@
 </body>
 
 <script>
-    //
+  //
 </script>
 
 </html>

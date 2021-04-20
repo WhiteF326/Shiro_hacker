@@ -7,7 +7,7 @@
     "memorylimit": 512,
     "JP": {
         "text": "白羽君の最寄りのコンビニではZ〇Ne Energyというドリンクが206円で売られている。\n白羽君がZ〇Ne Energyをn本買うときの代金を答えよ。\nただし、消費税によるずれを考慮しない。",
-        "condition": "1 leq n leq 100",
+        "condition": "1 \\lq n \\lq 100",
         "input": "n",
         "output": "解を一行で出力し、最後に改行してください。",
         "samples": [
