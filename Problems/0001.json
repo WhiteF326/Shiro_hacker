@@ -4,7 +4,7 @@
     "level": 0,
     "difficulty": -1,
     "timelimit": 2.000,
-    "memorylimit": 1024,
+    "memorylimit": 512,
     "JP": {
         "text": "Hello World!を出力してください。",
         "condition": null,

@@ -32,6 +32,10 @@ class body extends Server {
           retobj = await Deno.readTextFile("./Problems/" + prm.name);
         }
         break;
+      
+      case "languages":
+        retobj = await Deno.readTextFile("./static/materials/languages.json");
+        break;
 
       default:
         break;

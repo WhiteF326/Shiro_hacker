@@ -2,7 +2,6 @@
 <html>
 
 <head>
-  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async defer></script>
   <link rel="stylesheet" href="header.css" type="text.css">
   <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
   <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
@@ -40,8 +39,6 @@
       }
       const contestData = JSON.parse(contestDataText);
 
-      console.log(contestData);
-
       // コンテストは公開状態か？
       if (contestData.visible) {
         document.getElementById("contestName").innerText = contestData.name;
@@ -51,6 +48,7 @@
         return;
       }
 
+      // テーブルに問題を追加する
       const setsTable = document.getElementById("sets");
       const contestDate = makeDate(contestData.starts);
       let lineList = [];      //順序確保用
@@ -75,7 +73,14 @@
           problemLine.appendChild(problemIdCell);
           // 問題名
           const problemNameCell = document.createElement("td");
-          problemNameCell.innerText = problemData.name;
+
+          const problemNameLink = document.createElement("span");
+          problemNameLink.addEventListener("mouseenter", () => problemNameLink.style = "color: Lightskyblue;");
+          problemNameLink.addEventListener("mouseleave", () => problemNameLink.style = "");
+          problemNameLink.addEventListener("click", () => moveTo("problemForm", { "problemFormFileName": r.filename }));
+          problemNameLink.innerText = problemData.name;
+
+          problemNameCell.appendChild(problemNameLink);
           problemLine.appendChild(problemNameCell);
           // 実行時間制限
           const problemTimeCell = document.createElement("td");
@@ -93,6 +98,7 @@
           lineList.push({ "id": r.no, "body": problemLine });
         }
 
+        // 順序確保のためにソート
         lineList.sort((a, b) => {
           if (a.id < b.id) return -1;
           else if (a.id > b.id) return 1;
@@ -104,6 +110,12 @@
         });
 
       });
+    }
+
+    function moveTo(url, prm) {
+      const contestForm = document.getElementById(url);
+      for (let key in prm) document.getElementById(key).setAttribute("value", prm[key]);
+      contestForm.submit();
     }
   </script>
 
@@ -143,6 +155,13 @@
       </tr>
       <!-- コンテスト問題情報の追加 -->
     </table>
+  </div>
+
+  <div style="display: none;">
+    <form id="problemForm" action="problem.html" method="GET">
+      <input name="fileName" type="text" id="problemFormFileName">
+      <button type="submit"></button>
+    </form>
   </div>
 
 </body>
