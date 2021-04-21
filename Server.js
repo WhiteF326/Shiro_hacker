@@ -1,7 +1,6 @@
 // server.js
 
 import { Server } from "https://js.sabae.cc/Server.js"
-import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
 
 class body extends Server {
   async api(path, prm) {
@@ -50,13 +49,14 @@ class body extends Server {
         }else if (path.split("/")[3] == "search") {
           retobj = await Deno.readTextFile("./submits/" + prm.subid);
         }else if (path.split("/")[3] == "startJudge") {
-          let subFile = Deno.readTextFile("./submits/" + prm.subid);
+          const subFileText = await Deno.readTextFile("./submits/" + prm.subid);
+          let subFile = JSON.parse(subFileText);
           subFile.status = 1;
-          Deno.writeTextFile("./submits/" + prm.subid, subFile)
+          Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
         }
         break;
 
-      // 実行
+      // 言語一覧
       case "languages":
         retobj = await Deno.readTextFile("./static/materials/languages.json");
         break;

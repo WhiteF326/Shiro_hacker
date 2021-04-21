@@ -191,11 +191,6 @@
         }
       }
       // 提出ボタン
-      /*
-        v サーバにソースコードと言語をPOSTで提出する
-        v サーバから提出IDが返ってくるのをawait取得する
-        提出IDを使ってGETでsubmit.htmlへ遷移する
-      */
       document.getElementById("submitSource").addEventListener("click", async () => {
         const submissionID = await fetchJSON("api/submission/write", {
           "source": document.getElementById("source").value,

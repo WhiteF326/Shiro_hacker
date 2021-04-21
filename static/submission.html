@@ -28,7 +28,7 @@
 
       if(submitStatus.status == 0){
         // ジャッジ開始リクエスト
-        await fetchJSON("api/submission/startJudge", {"subid": id})
+        await fetchJSON("api/submission/startJudge", {"subid": id});
       }
     }
 
@@ -36,7 +36,7 @@
       // GETパラメータからコンテストファイル名を取得
       const params = (new URL(window.location.href)).searchParams;
       // タイマーセット
-      const timer = setInterval("body(" + params.get("subid") + ")", 1000);
+      const timer = setInterval(body, 1000, params.get("subid"));
     }
 
     function moveTo(url, prm) {
