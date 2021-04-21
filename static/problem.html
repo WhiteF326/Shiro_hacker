@@ -3,16 +3,17 @@
 
 <head>
   <script>
-  MathJax = {
-    chtml: {
-      matchFontHeight: false
-    },
-    tex: {
-      inlineMath: [['$$', '$$']]
-    }
-  };
+    MathJax = {
+      chtml: {
+        matchFontHeight: false
+      },
+      tex: {
+        inlineMath: [['$$', '$$']]
+      }
+    };
   </script>
-  <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML" async defer></script>
+  <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"
+    async defer></script>
   <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
   <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/dracula.min.css"> -->
@@ -20,9 +21,10 @@
 </head>
 
 <style>
-  .MJXc-display{
+  .MJXc-display {
     text-align: left !important;
   }
+
   /* .MJXp-display{
     text-align: left !important;
   } */
@@ -45,18 +47,25 @@
     }
 
     window.onload = async () => {
+      // get prm
       const params = (new URL(window.location.href)).searchParams;
       // 前の画面へ戻るリンクを作成
-      if(params.get("score") === null){
+      if (params.get("score") === null) {
         document.getElementById("backToContest").innerText = "問題一覧ページに戻る";
         document.getElementById("backToContest").addEventListener("click", () => {
-          //
+          location.href = "index.html"    // 仮
         });
-      }else{
+      } else {
         document.getElementById("backToContest").addEventListener("click", () => {
-          //
+          history.back();
         });
       }
+      document.getElementById("backToContest").addEventListener("mouseenter", () => {
+        document.getElementById("backToContest").style = "color: Lightskyblue;"
+      });
+      document.getElementById("backToContest").addEventListener("mouseleave", () => {
+        document.getElementById("backToContest").style = ""
+      });
       // 言語一覧のリストボックスを作成
       const languagesListText = await fetchJSON("api/languages", {});
       const languagesList = JSON.parse(languagesListText);
@@ -68,6 +77,9 @@
         languagesBox.appendChild(eachLanguageOption);
       });
       // 言語の変更時に変更内容をローカルに保存する
+      languagesBox.addEventListener("change", () => {
+        localStorage.setItem("selectedLanguage", languagesBox.value);
+      });
 
       // source 高さの自動調整
       document.getElementById("source").addEventListener("input", () => autoHeightAdjust());
@@ -75,8 +87,8 @@
       document.getElementById("autoHeight").addEventListener("change", () => autoHeightAdjust());
       // source上にマウスがある時ホイール操作を補足する
       window.addEventListener("mousewheel", e => {
-        if(document.elementFromPoint(e.clientX, e.clientY) !== null){
-          if(document.elementFromPoint(e.clientX, e.clientY).id == "source"){
+        if (document.elementFromPoint(e.clientX, e.clientY) !== null) {
+          if (document.elementFromPoint(e.clientX, e.clientY).id == "source") {
             const targetTextArea = document.getElementById("source");
             const lineHeight = parseInt(getComputedStyle(targetTextArea, null).getPropertyValue("line-height"));
             e.preventDefault();
@@ -84,7 +96,7 @@
           }
         }
         // console.log(e.deltaY / 125);
-      }, {passive: false});
+      }, { passive: false });
 
       // ページ要素の生成
       const problemInstanceText = await fetchJSON("api/problems/search", { "name": params.get("fileName") });
@@ -97,7 +109,7 @@
         "メモリ量制限 " + problemInstance.memorylimit + "MB"
       );
       // 配点
-      if(params.get("score") !== null){
+      if (params.get("score") !== null) {
         document.getElementById("score").innerText = "配点:" + params.get("score") + "点";
       }
       // 問題文
@@ -106,29 +118,29 @@
         document.getElementById("problemText").appendChild(document.createElement("br"));
       });
       // 制約
-      if(problemInstance.JP.condition !== null){
+      if (problemInstance.JP.condition !== null) {
         problemInstance.JP.condition.split("\n").forEach(x => {
           document.getElementById("condition_body").appendChild(document.createTextNode("$$" + x + "$$"));
           document.getElementById("condition_body").appendChild(document.createElement("br"));
         });
         MathJax.Hub.Typeset(document.getElementById("condition_body"));
-      }else{
+      } else {
         document.getElementById("condition").remove();
       }
       // 入力
-      if(problemInstance.JP.input !== null){
+      if (problemInstance.JP.input !== null) {
         problemInstance.JP.input.split("\n").forEach(x => {
           document.getElementById("input_body").appendChild(document.createTextNode(x));
           document.getElementById("input_body").appendChild(document.createElement("br"));
         });
         document.getElementById("input_body").style = "border: 1px silver solid; padding: 5px; border-radius: 2px"
-      }else{
+      } else {
         document.getElementById("input").remove();
       }
       // 出力
       document.getElementById("output").appendChild(document.createTextNode(problemInstance.JP.output));
       // サンプル
-      if(problemInstance.JP.samples !== null){
+      if (problemInstance.JP.samples !== null) {
         let sampleCnt = 0;
         const sampleList = document.getElementById("samples")
         problemInstance.JP.samples.forEach(eachSample => {
@@ -166,9 +178,31 @@
           // 最終
           sampleList.appendChild(sampleSpan);
           sampleList.appendChild(document.createElement("hr"));
-          
+
         });
       }
+      // ローカルから言語の選択状況を取得
+      if(localStorage.getItem("selectedLanguage") !== null){
+        const languagesListChildNodes = document.getElementById("language").childNodes;
+        for(let i = 0; i < languagesListChildNodes.length; i++){
+          if(languagesListChildNodes[i].value == localStorage.getItem("selectedLanguage")){
+            languagesListChildNodes[i].selected = true;
+          }
+        }
+      }
+      // 提出ボタン
+      /*
+        v サーバにソースコードと言語をPOSTで提出する
+        v サーバから提出IDが返ってくるのをawait取得する
+        提出IDを使ってGETでsubmit.htmlへ遷移する
+      */
+      document.getElementById("submitSource").addEventListener("click", async () => {
+        const submissionID = await fetchJSON("api/submission", {
+          "source": document.getElementById("source").value,
+          "language": document.getElementById("language").value
+        });
+        console.log(submissionID);
+      });
     }
 
     // ページ遷移
@@ -179,14 +213,14 @@
     }
 
     // 速度の自動調整
-    function autoHeightAdjust(){
+    function autoHeightAdjust() {
       const targetTextArea = document.getElementById("source");
-      if(document.getElementById("autoHeight").checked){
+      if (document.getElementById("autoHeight").checked) {
         const lineHeight = parseInt(getComputedStyle(targetTextArea, null).getPropertyValue("line-height"));
         const lineCount = Math.max(targetTextArea.value.split("\n").length, 10);
         console.log(lineCount);
         targetTextArea.style.height = (lineHeight * lineCount + 14) + "px";
-      }else{
+      } else {
         targetTextArea.style.height = "134px";
       }
     }
@@ -262,15 +296,8 @@
   </div>
 
   <div style="display: none;">
-    <form id="contestForm" action="contest.html" method="GET">
-      <input name="fileName" type="text" id="contestFormFileName">
-      <button type="submit"></button>
-    </form>
-  </div>
-  
-  <div style="display: none;">
     <form id="submissionForm" action="submission.html" method="GET">
-      <input name="source" type="text" id="submissionFormSource">
+      <input name="subid" type="text" id="submissionID">
       <button type="submit"></button>
     </form>
   </div>

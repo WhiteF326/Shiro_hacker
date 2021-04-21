@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+  <link rel="shortcut icon" href="materials/1LTxsErZ_400x400.ico" id="fav">
+  <title>Shiro_hacker</title>
+</head>
+
+<body>
+
+  <script type="module">
+    import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
+    function makeDate(dayString) {
+      const retobj = new Date();
+      retobj.setUTCFullYear(parseInt(dayString.split(" ")[0].split("-")[0]));
+      retobj.setUTCMonth(parseInt(dayString.split(" ")[0].split("-")[1]) - 1);
+      retobj.setUTCDate(parseInt(dayString.split(" ")[0].split("-")[2]));
+      retobj.setUTCHours(parseInt(dayString.split(" ")[1].split(":")[0]));
+      retobj.setUTCMinutes(parseInt(dayString.split(" ")[1].split(":")[1]));
+      retobj.setUTCSeconds(parseInt(dayString.split(" ")[1].split(":")[2]));
+      return retobj
+    }
+
+    window.onload = async () => {
+      // GETパラメータからコンテストファイル名を取得
+      const params = (new URL(window.location.href)).searchParams;
+      
+    }
+
+    function moveTo(url, prm) {
+      console.log(prm);
+      const contestForm = document.getElementById(url);
+      for (let key in prm) document.getElementById(key).setAttribute("value", prm[key]);
+      contestForm.submit();
+    }
+  </script>
+
+  <span>
+    <span style="display: inline-block;">
+      <h6>Everyone to be enforced.</h6>
+      <h3>Shiro_hacker</h3>
+    </span>
+    <span style="display: inline-block; width: 20%;"></span>
+    <span style="display: inline-block;">
+      <p>Contact: <a href="mailto:lume1a326.leno@gmail.com">lume1a326.leno@gmail.com</a></p>
+      <p>Twitter: <a href="https://twitter.com/shiroha_F14" target="_blank">@shiroha_F14</a></p>
+    </span>
+  </span>
+  <hr>
+
+  <div style="display: block; margin-top: 20px;">
+    <span>
+      <h2 style="display: inline;">Submission</h2>
+    </span>
+    <!--  -->
+  </div>
+
+</body>
+
+<script>
+    //
+</script>
+
+</html>

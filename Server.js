@@ -1,6 +1,7 @@
 // server.js
 
 import { Server } from "https://js.sabae.cc/Server.js"
+import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
 
 class body extends Server {
   async api(path, prm) {
@@ -9,7 +10,7 @@ class body extends Server {
       case "":
         break;
 
-      //コンテスト情報の取得
+      // コンテスト情報の取得
       case "contests":
         if (path.split("/")[3] == "list") {
           retobj = [];
@@ -21,7 +22,7 @@ class body extends Server {
         }
         break;
 
-      //問題情報の取得
+      // 問題情報の取得
       case "problems":
         if (path.split("/")[3] == "list") {
           retobj = [];
@@ -32,7 +33,22 @@ class body extends Server {
           retobj = await Deno.readTextFile("./Problems/" + prm.name);
         }
         break;
-      
+
+      // 提出
+      case "submission":
+        const submissionData = {
+          "source": prm.source,
+          "language": prm.language,
+          "status": 0
+        }
+        let nextSubId = 1;
+        for await (const i of Deno.readDir("submits")) nextSubId++;
+        const fileName = "sub" + ("00000000" + nextSubId).slice(-8) + ".json";
+        Deno.writeTextFile("./submits/" + fileName, JSON.stringify(submissionData));
+        retobj = fileName;
+        break;
+
+      // 実行
       case "languages":
         retobj = await Deno.readTextFile("./static/materials/languages.json");
         break;
