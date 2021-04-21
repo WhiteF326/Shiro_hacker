@@ -36,16 +36,24 @@ class body extends Server {
 
       // 提出
       case "submission":
-        const submissionData = {
-          "source": prm.source,
-          "language": prm.language,
-          "status": 0
+        if (path.split("/")[3] == "write") {
+          const submissionData = {
+            "source": prm.source,
+            "language": prm.language,
+            "status": 0
+          }
+          let nextSubId = 1;
+          for await (const _i of Deno.readDir("submits")) nextSubId++;
+          const fileName = "sub" + ("00000000" + nextSubId).slice(-8) + ".json";
+          Deno.writeTextFile("./submits/" + fileName, JSON.stringify(submissionData));
+          retobj = fileName;
+        }else if (path.split("/")[3] == "search") {
+          retobj = await Deno.readTextFile("./submits/" + prm.subid);
+        }else if (path.split("/")[3] == "startJudge") {
+          let subFile = Deno.readTextFile("./submits/" + prm.subid);
+          subFile.status = 1;
+          Deno.writeTextFile("./submits/" + prm.subid, subFile)
         }
-        let nextSubId = 1;
-        for await (const i of Deno.readDir("submits")) nextSubId++;
-        const fileName = "sub" + ("00000000" + nextSubId).slice(-8) + ".json";
-        Deno.writeTextFile("./submits/" + fileName, JSON.stringify(submissionData));
-        retobj = fileName;
         break;
 
       // 実行

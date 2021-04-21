@@ -182,10 +182,10 @@
         });
       }
       // ローカルから言語の選択状況を取得
-      if(localStorage.getItem("selectedLanguage") !== null){
+      if (localStorage.getItem("selectedLanguage") !== null) {
         const languagesListChildNodes = document.getElementById("language").childNodes;
-        for(let i = 0; i < languagesListChildNodes.length; i++){
-          if(languagesListChildNodes[i].value == localStorage.getItem("selectedLanguage")){
+        for (let i = 0; i < languagesListChildNodes.length; i++) {
+          if (languagesListChildNodes[i].value == localStorage.getItem("selectedLanguage")) {
             languagesListChildNodes[i].selected = true;
           }
         }
@@ -197,11 +197,12 @@
         提出IDを使ってGETでsubmit.htmlへ遷移する
       */
       document.getElementById("submitSource").addEventListener("click", async () => {
-        const submissionID = await fetchJSON("api/submission", {
+        const submissionID = await fetchJSON("api/submission/write", {
           "source": document.getElementById("source").value,
           "language": document.getElementById("language").value
         });
         console.log(submissionID);
+        moveTo("submissionForm", { "submissionID": submissionID });
       });
     }
 

@@ -22,10 +22,21 @@
       return retobj
     }
 
+    async function body(id){
+      const submitStatusText = await fetchJSON("api/submission/search", {"subid": id});
+      const submitStatus = JSON.parse(submitStatusText);
+
+      if(submitStatus.status == 0){
+        // ジャッジ開始リクエスト
+        await fetchJSON("api/submission/startJudge", {"subid": id})
+      }
+    }
+
     window.onload = async () => {
       // GETパラメータからコンテストファイル名を取得
       const params = (new URL(window.location.href)).searchParams;
-      
+      // タイマーセット
+      const timer = setInterval("body(" + params.get("subid") + ")", 1000);
     }
 
     function moveTo(url, prm) {
