@@ -29,6 +29,9 @@
       if(submitStatus.status == 0){
         // ジャッジ開始リクエスト
         await fetchJSON("api/submission/startJudge", {"subid": id});
+      }else if(submitStatus == 1){
+        // ジャッジ待ちリクエスト
+        await fetchJSON("api/submission/waitJudge", {"subid": id});
       }
     }
 

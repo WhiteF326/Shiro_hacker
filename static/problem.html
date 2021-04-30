@@ -194,7 +194,8 @@
       document.getElementById("submitSource").addEventListener("click", async () => {
         const submissionID = await fetchJSON("api/submission/write", {
           "source": document.getElementById("source").value,
-          "language": document.getElementById("language").value
+          "language": document.getElementById("language").value,
+          "problem": params.get("fileName")
         });
         console.log(submissionID);
         moveTo("submissionForm", { "submissionID": submissionID });
