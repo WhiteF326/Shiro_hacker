@@ -2,28 +2,6 @@
 
 import { Server } from "https://js.sabae.cc/Server.js"
 
-class Judge {
-  constructor(subFile) {
-    this.judgeTarget = subFile;
-    this.selfStatus = 0;
-  }
-  async startjudge() {
-    // 事前準備1 ファイル読み込み
-    this.selfStatus = 1;
-    const testcasesText = await Deno.readTextFile("./Testcases/" + this.judgeTarget.problem);
-    const testcases = JSON.parse(testcasesText);
-
-    // 事前準備2 ソースコード書き出し
-    //
-
-    testcases.forEach(r => {
-      const p = Deno.run({
-        cmd: [""]
-      });
-    });
-  }
-}
-
 const Judges = [];
 
 class body extends Server {
@@ -78,11 +56,6 @@ class body extends Server {
           let subFile = JSON.parse(subFileText);
           subFile.status = 1;
           Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
-          Judges.push({
-            "subFileName": prm.subid,
-            "Judge": new Judge(subFile)
-          });
-          Judges.find(r => r.subFileName == prm.subid).Judge.startjudge()
         } else if (path.split("/")[3] == "waitJudge") {
           //
         }
