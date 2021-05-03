@@ -67,7 +67,7 @@
         document.getElementById("backToContest").style = ""
       });
       // 言語一覧のリストボックスを作成
-      const languagesListText = await fetchJSON("api/languages", {});
+      const languagesListText = await fetchJSON("api/languages/list", {});
       const languagesList = JSON.parse(languagesListText);
       const languagesBox = document.getElementById("language");
       languagesList.forEach(eachLanguage => {
@@ -195,7 +195,8 @@
         const submissionID = await fetchJSON("api/submission/write", {
           "source": document.getElementById("source").value,
           "language": document.getElementById("language").value,
-          "problem": params.get("fileName")
+          "problem": params.get("fileName"),
+          "score": params.get("score")
         });
         console.log(submissionID);
         moveTo("submissionForm", { "submissionID": submissionID });

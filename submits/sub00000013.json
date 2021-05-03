@@ -1,0 +1,8 @@
+{
+  "source": "#include <stdio.h>\n\nint main(){\n    int n = 0; scanf(\"%d\", &n);\n    int d = 468 % n;\n    printf(\"%d\\n\", d);\n    return 0;\n}",
+  "language": "cpp",
+  "problem": "0003.json",
+  "status": 0,
+  "internalId": 0,
+  "subDate": "2021-05-03T12:24:29.912Z"
+}

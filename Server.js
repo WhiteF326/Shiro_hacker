@@ -2,8 +2,6 @@
 
 import { Server } from "https://js.sabae.cc/Server.js"
 
-const Judges = [];
-
 class body extends Server {
   async api(path, prm) {
     let retobj = null;
@@ -42,8 +40,12 @@ class body extends Server {
             "source": prm.source,
             "language": prm.language,
             "problem": prm.problem,
-            "status": 0
+            "status": 0,
+            "internalId": 0,
+            "subDate": new Date(),
+            "score": prm.score
           }
+          if (prm.score != null) submissionData.score = prm.score;
           let nextSubId = 1;
           for await (const _i of Deno.readDir("submits")) nextSubId++;
           const fileName = "sub" + ("00000000" + nextSubId).slice(-8) + ".json";
@@ -54,7 +56,8 @@ class body extends Server {
         } else if (path.split("/")[3] == "startJudge") {
           const subFileText = await Deno.readTextFile("./submits/" + prm.subid);
           let subFile = JSON.parse(subFileText);
-          subFile.status = 1;
+          // ジャッジ開始
+          subFile.status = -1;
           Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
         } else if (path.split("/")[3] == "waitJudge") {
           //
@@ -63,7 +66,14 @@ class body extends Server {
 
       // 言語一覧
       case "languages":
-        retobj = await Deno.readTextFile("./Inside/languages.json");
+        if (path.split("/")[3] == "list") {
+          retobj = await Deno.readTextFile("./Inside/languages.json");
+        } else if (path.split("/")[3] == "getName") {
+          const languageListText = await Deno.readTextFile("./Inside/languages.json");
+          const languageList = JSON.parse(languageListText);
+          const langName = languageList.find(r => r.id == prm.languageId).name;
+          retobj = langName;
+        }
         break;
 
       default:

@@ -22,24 +22,81 @@
       return retobj
     }
 
-    async function body(id){
-      const submitStatusText = await fetchJSON("api/submission/search", {"subid": id});
-      const submitStatus = JSON.parse(submitStatusText);
+    async function body(id) {
+      const submitStatusText = await fetchJSON("api/submission/search", { "subid": id });
+      const submitStatus = JSON.parse(submitStatusText).status;
 
-      if(submitStatus.status == 0){
+      if (submitStatus.status == 0) {
         // ジャッジ開始リクエスト
-        await fetchJSON("api/submission/startJudge", {"subid": id});
-      }else if(submitStatus == 1){
+        await fetchJSON("api/submission/startJudge", { "subid": id });
+      } else if (submitStatus == -7369) {
+        // IE
+      } else if (submitStatus == -6769) {
+        // CE
+      } else if (submitStatus == -8765) {
+        // WA
+      } else if (submitStatus == -8269) {
+        // RE
+      } else if (submitStatus == -7776) {
+        // MLE
+      } else if (submitStatus == -8476) {
+        // TLE
+      } else if (submitStatus == -7976) {
+        // OLE
+      } else if (submitStatus == 6567) {
+        // AC
+      } else {
         // ジャッジ待ちリクエスト
-        await fetchJSON("api/submission/waitJudge", {"subid": id});
+        if (submitStatus == -1) {
+          // 進行を0表示する
+          document.getElementById("resultStatus").style.backgroundColor = "gainsboro";
+          document.getElementById("resultStatus").innerText = "WJ";
+          submitStatus == 1;
+        } else {
+          // 進行はsubmitStatusと同じ
+          // ジャッジ履歴出したい
+        }
+        await fetchJSON("api/submission/waitJudge", { "subid": id });
       }
     }
 
     window.onload = async () => {
       // GETパラメータからコンテストファイル名を取得
       const params = (new URL(window.location.href)).searchParams;
+      // 提出番号
+      document.getElementById("subIdPlace").innerText = "提出No." + Number(params.get("subid").substr(3, 8));
+      // 提出内部ファイルの取得
+      const subFileText = await fetchJSON("api/submission/search", { "subid": params.get("subid") });
+      const subFile = JSON.parse(subFileText);
+      // ソースコードの表示
+      document.getElementById("sourceCode").innerText = subFile.source;
+      const subDateText = new Date(subFile.subDate);
+      // 提出日時の表示
+      document.getElementById("subDate").innerText = subDateText.toLocaleDateString() + "　";
+      document.getElementById("subDate").innerText += subDateText.toLocaleTimeString();
+      // 問題の表示
+      const probFileText = await fetchJSON("api/problems/search", { "name": subFile.problem });
+      const probFile = JSON.parse(probFileText);
+
+      const problemLink = document.createElement("span");
+      problemLink.addEventListener("mouseenter", () => problemLink.style = "color: Lightskyblue;");
+      problemLink.addEventListener("mouseleave", () => problemLink.style = "");
+      problemLink.addEventListener("click", () => moveTo("problemForm", { "problemFormFileName": subFile.problem }));
+
+      problemLink.appendChild(document.createTextNode(probFile.name));
+      document.getElementById("problemName").appendChild(problemLink);
+      // 言語の表示
+      const languageName = await fetchJSON("api/languages/getName", { "languageId": subFile.language })
+      document.getElementById("language").innerText = languageName;
+      // 点数の表示
+      if (subFile.score == null) {
+        document.getElementById("scoreLine").remove();
+      } else {
+        // document.getElementById("score").appendChild(subFile.score);
+        document.getElementById("score").appendChild(document.createTextNode("-"));
+      }
       // タイマーセット
-      const timer = setInterval(body, 1000, params.get("subid"));
+      const timer = setInterval(body, 160, params.get("subid"));
     }
 
     function moveTo(url, prm) {
@@ -66,8 +123,51 @@
   <div style="display: block; margin-top: 20px;">
     <span>
       <h2 style="display: inline;">Submission</h2>
+      <h3 id="subIdPlace"></h3>
     </span>
-    <!--  -->
+    <span>
+      <pre id="sourceCode" style="background-color: whitesmoke; font-size: large;"></pre>
+    </span>
+    <span>
+      <table>
+        <tbody>
+          <tr>
+            <td><b>提出日時</b></td>
+            <td id="subDate"></td>
+          </tr>
+          <tr>
+            <td><b>問題</b></td>
+            <td id="problemName"></td>
+          </tr>
+          <tr style="background-color: gainsboro;">
+            <td><b>ユーザー</b></td>
+            <td id="userId"></td>
+          </tr>
+          <tr>
+            <td><b>言語</b></td>
+            <td id="language"></td>
+          </tr>
+          <tr id="scoreLine">
+            <td><b>得点</b></td>
+            <td id="score"></td>
+          </tr>
+          <tr>
+            <td><b>結果</b></td>
+            <td>
+              <div id="resultStatus" style="border: 1px gray solid; border-radius: 10%; display: inline"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </span>
+  </div>
+
+  <div style="display: none;">
+    <form id="problemForm" action="problem.html" method="GET">
+      <input name="fileName" type="text" id="problemFormFileName">
+      <input name="score" type="text" id="problemScore">
+      <button type="submit"></button>
+    </form>
   </div>
 
 </body>
