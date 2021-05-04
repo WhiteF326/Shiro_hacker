@@ -70,6 +70,9 @@ class body extends Server {
           // 問題ファイルの取得
           const problemFileText = await Deno.readTextFile("./Problems/" + subFile.problem);
           const problemFile = JSON.parse(problemFileText);
+          // テストケースの取得
+          const testcaseFileText = await Deno.readTextFile("./Testcases/" + subFile.problem);
+          const testcaseFile = JSON.parse(testcaseFileText);
           const response = await fetch(
             "http://api.paiza.io:80/runners/create",
             {
@@ -138,7 +141,7 @@ class body extends Server {
                 subFile.status = -8269;
               }else{
                 // WA判定
-                
+                const problemFile
               }
             }
             // ジャッジ未実行へ、テストデータ+1
