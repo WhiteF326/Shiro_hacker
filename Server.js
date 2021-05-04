@@ -111,7 +111,16 @@ class body extends Server {
               api_key: "guest"
             }
           );
-          if (currentStatus.json().status == "completed") {
+          if (currentStatus.json().stats == null){
+            // error
+            if(currentStatus.json().error.startsWith("longpoll")){
+              // TLE
+              subFile.status = -8476;
+            }else{
+              // それ以外の条件が不明なので
+              subFile.status = -7776;
+            }
+          } else if (currentStatus.json().status == "completed") {
             // 結果の解析
             const detail = await fetch(
               "http://api.paiza.io:80/runners/get_details",
@@ -127,6 +136,9 @@ class body extends Server {
               // RE
               if(detail.json().result == "failure"){
                 subFile.status = -8269;
+              }else{
+                // WA判定
+                
               }
             }
             // ジャッジ未実行へ、テストデータ+1
