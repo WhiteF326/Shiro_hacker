@@ -54,9 +54,17 @@
           submitStatus == 1;
         } else {
           // 進行はsubmitStatusと同じ
+          // internalStatus == falseの時 submitStatus番目のテストデータを実行
+          // internalStatus == trueの時 現在のテスト結果を取得
+          if (JSON.parse(submitStatusText).internalStatus == false) {
+            fetchJSON("api/submission/runJudge", { "subid": id });
+          } else {
+            // get judge status
+            fetchJSON("api/submission/getJudgeStatus", { "subid": id });
+          }
           // ジャッジ履歴出したい
         }
-        await fetchJSON("api/submission/waitJudge", { "subid": id });
+        // await fetchJSON("api/submission/waitJudge", { "subid": id });
       }
     }
 

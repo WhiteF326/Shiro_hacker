@@ -43,7 +43,9 @@ class body extends Server {
             "status": 0,
             "internalId": 0,
             "subDate": new Date(),
-            "score": prm.score
+            "score": prm.score,
+            "judges": [],
+            "internalStatus": false
           }
           if (prm.score != null) submissionData.score = prm.score;
           let nextSubId = 1;
@@ -56,11 +58,82 @@ class body extends Server {
         } else if (path.split("/")[3] == "startJudge") {
           const subFileText = await Deno.readTextFile("./submits/" + prm.subid);
           let subFile = JSON.parse(subFileText);
-          // ジャッジ開始
           subFile.status = -1;
           Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
-        } else if (path.split("/")[3] == "waitJudge") {
-          //
+        } else if (path.split("/")[3] == "runJudge") {
+          // 提出ファイルの取得
+          const subFileText = await Deno.readTextFile("./submits/" + prm.subid);
+          let subFile = JSON.parse(subFileText);
+          // 提出ファイルの内部状態を書き換える
+          subFile.internalStatus = true;
+          Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
+          // 問題ファイルの取得
+          const problemFileText = await Deno.readTextFile("./Problems/" + subFile.problem);
+          const problemFile = JSON.parse(problemFileText);
+          const response = await fetch(
+            "http://api.paiza.io:80/runners/create",
+            {
+              method: "POST",
+              mode: "cors",
+              cache: "no-cache",
+              credentials: "same-origin",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              redirect: "follow",
+              referrerPolicy: "no-referrer",
+              body: JSON.stringify({
+                source_code: subFile.source,
+                language: subFile.language,
+                input: "hoge",
+                longpoll: true,
+                longpoll_timeout: problemFile.timeLimit,
+                api_key: "guest",
+              }),
+            }
+          );
+          // IE処理
+          if (response.status / 100 != 2) subFile.status = -7369;
+          // 内部ID付加
+          subFile.internalId = response.json().id;
+          Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
+        } else if (path.split("/")[3] == "getJudgeStatus") {
+          // 提出ファイルの取得
+          const subFileText = await Deno.readTextFile("./submits/" + prm.subid);
+          let subFile = JSON.parse(subFileText);
+          // 提出内部ID
+          const subInternalId = subFile.internalId;
+          // get_status
+          const currentStatus = await fetch(
+            "http://api.paiza.io:80/runners/get_status",
+            {
+              id: subInternalId,
+              api_key: "guest"
+            }
+          );
+          if (currentStatus.json().status == "completed") {
+            // 結果の解析
+            const detail = await fetch(
+              "http://api.paiza.io:80/runners/get_details",
+              {
+                id: subInternalId,
+                api_key: "guest"
+              }
+            );
+            if(detail.json().build_result == "failure"){
+              // CE
+              subFile.status = -6769;
+            }else{
+              // RE
+              if(detail.json().result == "failure"){
+                subFile.status = -8269;
+              }
+            }
+            // ジャッジ未実行へ、テストデータ+1
+            subFile.internalStatus = true;
+            subFile.status++;
+            Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
+          }
         }
         break;
 
