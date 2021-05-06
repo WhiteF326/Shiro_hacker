@@ -1,0 +1,1 @@
+print(468 % int(input()))

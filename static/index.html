@@ -53,6 +53,25 @@
         contestLink.appendChild(document.createTextNode(contestInstance.name));
         updateTarget.appendChild(contestLink);
       });
+
+      // ユーザー情報を取得
+      if (localStorage.getItem("userID") == null) {
+        // 未ログイン
+        const userDataElement = document.getElementById("userData");
+        userDataElement.appendChild(document.createTextNode("未ログイン"));
+        userDataElement.appendChild(document.createElement("br"));
+
+        const loginButton = document.createElement("button");
+        loginButton.innerText = "ログイン";
+        loginButton.style.marginRight = "30px";
+        userDataElement.appendChild(loginButton);
+
+        const createAccountButton = document.createElement("button");
+        createAccountButton.innerText = "新規登録";
+        userDataElement.appendChild(createAccountButton);
+
+        userDataElement.appendChild(document.createElement("br"));
+      }
     }
 
     // ページ遷移
@@ -99,7 +118,7 @@
       <h2 style="display: inline;">User Data</h2>
       <h4 style="display: inline;">ユーザーデータ</h4>
     </span>
-    <!--  -->
+    <span id="userData"><br></span>
   </div>
 
   <hr>
