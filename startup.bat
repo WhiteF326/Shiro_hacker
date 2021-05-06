@@ -1,1 +1,1 @@
-denon run -A Server.js
+denon start

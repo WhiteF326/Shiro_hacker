@@ -22,6 +22,8 @@
       return retobj
     }
 
+    let timer = null;
+
     async function body(id) {
       const submitStatusText = await fetchJSON("api/submission/search", { "subid": id });
       const submitStatus = JSON.parse(submitStatusText).status;
@@ -30,42 +32,60 @@
         // ジャッジ開始リクエスト
         await fetchJSON("api/submission/startJudge", { "subid": id });
       } else if (submitStatus == -7369) {
+        clearInterval(timer);
+        document.getElementById("resultStatus").style.backgroundColor = "crimson";
+        document.getElementById("resultStatus").innerText = "IE";
+        document.getElementById("score").innerText = "0";
         // IE
       } else if (submitStatus == -6769) {
+        clearInterval(timer);
+        document.getElementById("resultStatus").style.backgroundColor = "darkgray";
+        document.getElementById("resultStatus").innerText = "CE";
+        document.getElementById("score").innerText = "0";
         // CE
       } else if (submitStatus == -8765) {
+        clearInterval(timer);
+        document.getElementById("resultStatus").style.backgroundColor = "yellow";
+        document.getElementById("resultStatus").innerText = "WA";
+        document.getElementById("score").innerText = "0";
         // WA
       } else if (submitStatus == -8269) {
+        clearInterval(timer);
+        document.getElementById("resultStatus").style.backgroundColor = "seagreen";
+        document.getElementById("resultStatus").innerText = "RE";
+        document.getElementById("score").innerText = "0";
         // RE
       } else if (submitStatus == -7776) {
+        clearInterval(timer);
+        document.getElementById("resultStatus").style.backgroundColor = "dodgerblue";
+        document.getElementById("resultStatus").innerText = "MLE";
+        document.getElementById("score").innerText = "0";
         // MLE
       } else if (submitStatus == -8476) {
+        clearInterval(timer);
+        document.getElementById("resultStatus").style.backgroundColor = "greenyellow";
+        document.getElementById("resultStatus").innerText = "TLE";
+        document.getElementById("score").innerText = "0";
         // TLE
       } else if (submitStatus == -7976) {
+        clearInterval(timer);
+        document.getElementById("resultStatus").style.backgroundColor = "plum";
+        document.getElementById("resultStatus").innerText = "OLE";
+        document.getElementById("score").innerText = "0";
         // OLE
       } else if (submitStatus == 6567) {
+        clearInterval(timer);
+        document.getElementById("resultStatus").style.backgroundColor = "paleturquoise";
+        document.getElementById("resultStatus").innerText = "AC";
+        document.getElementById("score").innerText = JSON.parse(submitStatusText).score;
         // AC
       } else {
         // ジャッジ待ちリクエスト
-        if (submitStatus == -1) {
-          // 進行を0表示する
-          document.getElementById("resultStatus").style.backgroundColor = "gainsboro";
-          document.getElementById("resultStatus").innerText = "WJ";
-          submitStatus == 1;
-        } else {
-          // 進行はsubmitStatusと同じ
-          // internalStatus == falseの時 submitStatus番目のテストデータを実行
-          // internalStatus == trueの時 現在のテスト結果を取得
-          if (JSON.parse(submitStatusText).internalStatus == false) {
-            fetchJSON("api/submission/runJudge", { "subid": id });
-          } else {
-            // get judge status
-            fetchJSON("api/submission/getJudgeStatus", { "subid": id });
-          }
-          // ジャッジ履歴出したい
-        }
-        // await fetchJSON("api/submission/waitJudge", { "subid": id });
+        // ジャッジを進める
+        const res = await fetchJSON("api/submission/runJudge", { "subid": id });
+        document.getElementById("resultStatus").innerText = "WJ " + res[0] + "/" + res[1];
       }
+      // ジャッジ履歴出したい
     }
 
     window.onload = async () => {
@@ -100,11 +120,10 @@
       if (subFile.score == null) {
         document.getElementById("scoreLine").remove();
       } else {
-        // document.getElementById("score").appendChild(subFile.score);
-        document.getElementById("score").appendChild(document.createTextNode("-"));
+        document.getElementById("score").innerText = "-";
       }
       // タイマーセット
-      const timer = setInterval(body, 160, params.get("subid"));
+      timer = setInterval(body, 160, params.get("subid"));
     }
 
     function moveTo(url, prm) {
@@ -118,7 +137,7 @@
   <span>
     <span style="display: inline-block;">
       <h6>Everyone to be enforced.</h6>
-      <h3>Shiro_hacker</h3>
+      <h3><a href="index.html">Shiro_hacker</a></h3>
     </span>
     <span style="display: inline-block; width: 20%;"></span>
     <span style="display: inline-block;">

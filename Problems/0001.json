@@ -1,19 +1,22 @@
 {
-    "visible": true,
-    "name": "Hello hackers",
-    "level": 0,
-    "difficulty": -1,
-    "timelimit": 2.000,
-    "memorylimit": 512,
-    "JP": {
-        "text": "Hello World!を出力してください。",
-        "condition": null,
-        "input": null,
-        "output": "Hello World!を出力し、最後に改行してください。",
-        "samples": [
-            {"input": "",
-            "output": "Hello World!",
-            "clar": "ようこそ。"}
-        ]
-    }
+  "visible": true,
+  "name": "Hello hackers",
+  "level": 0,
+  "difficulty": -1,
+  "timelimit": 2.000,
+  "memorylimit": 512,
+  "JP": {
+    "text": "Hello World!を出力してください。",
+    "condition": null,
+    "input": null,
+    "output": "Hello World!を出力し、最後に改行してください。",
+    "samples": [
+      {
+        "input": "",
+        "output": "Hello World!",
+        "clar": "ようこそ。"
+      }
+    ]
+  },
+  "codeJudge": false
 }

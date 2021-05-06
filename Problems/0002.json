@@ -1,28 +1,37 @@
 {
-    "visible": true,
-    "name": "You are in the zone",
-    "level": 1,
-    "difficulty": -1,
-    "timelimit": 2.000,
-    "memorylimit": 512,
-    "JP": {
-        "text": "白羽君の最寄りのコンビニではZ〇Ne Energyというドリンクが206円で売られている。\n白羽君がZ〇Ne Energyをn本買うときの代金を答えよ。\nただし、消費税によるずれを考慮しない。",
-        "condition": "1 \\lq n \\lq 100",
-        "input": "n",
-        "output": "解を一行で出力し、最後に改行してください。",
-        "samples": [
-            {"input": "1",
-            "output": "206",
-            "clar": "いつものことですね。"},
-            {"input": "3",
-            "output": "618",
-            "clar": "税抜き190円から計算すれば616円ですが、今回は206円単位で考えます。"},
-            {"input": "7",
-            "output": "1442",
-            "clar": "カンマはさすがに不要です。"},
-            {"input": "99",
-            "output": "20394",
-            "clar": "飲み過ぎは危険ですよ。"}    
-        ]
-    }
+  "visible": true,
+  "name": "You are in the zone",
+  "level": 1,
+  "difficulty": -1,
+  "timelimit": 2.000,
+  "memorylimit": 512,
+  "JP": {
+    "text": "白羽君の最寄りのコンビニではZ〇Ne Energyというドリンクが206円で売られている。\n白羽君がZ〇Ne Energyをn本買うときの代金を答えよ。\nただし、消費税によるずれを考慮しない。",
+    "condition": "1 \\lq n \\lq 100",
+    "input": "n",
+    "output": "解を一行で出力し、最後に改行してください。",
+    "samples": [
+      {
+        "input": "1",
+        "output": "206",
+        "clar": "いつものことですね。"
+      },
+      {
+        "input": "3",
+        "output": "618",
+        "clar": "税抜き190円から計算すれば616円ですが、今回は206円単位で考えます。"
+      },
+      {
+        "input": "7",
+        "output": "1442",
+        "clar": "カンマはさすがに不要です。"
+      },
+      {
+        "input": "99",
+        "output": "20394",
+        "clar": "飲み過ぎは危険ですよ。"
+      }
+    ]
+  },
+  "codeJudge": false
 }

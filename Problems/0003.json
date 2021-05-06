@@ -1,28 +1,37 @@
 {
-    "visible": false,
-    "name": "First Problem - Welcome to SBPAC001 / 468",
-    "level": 1,
-    "difficulty": -1,
-    "timelimit": 2.000,
-    "memorylimit": 512,
-    "JP": {
-        "text": "Shiroha Basic Programming Attributes Contest 001へようこそ！\n今回の問題はA～Lが白羽君の受難、M～Zは白羽君からの挑戦状で構成されています。\n基礎的なアルゴリズムの習得や確認と、活用力の育成にご利用ください。\n\nこれから白羽君には12個の困難に立ち向かっていく運命が待ち受けています。\n始まりの扉を開くのは貴方です。\n入力として正の整数nが与えられます。\n468をnで割った余りが扉の鍵になります。鍵の値を求めてみましょう。",
-        "condition": "1 \\le n \\le 468",
-        "input": "n",
-        "output": "解を一行で出力し、最後に改行してください。",
-        "samples": [
-            {"input": "5",
-            "output": "3",
-            "clar": "468を5で割った余りは3です。"},
-            {"input": "7",
-            "output": "6",
-            "clar": ""},
-            {"input": "12",
-            "output": "0",
-            "clar": "解は0であることも考えられます。"},
-            {"input": "326",
-            "output": "142",
-            "clar": "3/26は白羽君の誕生日です。"}    
-        ]
-    }
+  "visible": false,
+  "name": "First Problem - Welcome to SBPAC001 / 468",
+  "level": 1,
+  "difficulty": -1,
+  "timelimit": 2.000,
+  "memorylimit": 512,
+  "JP": {
+    "text": "Shiroha Basic Programming Attributes Contest 001へようこそ！\n今回の問題はA～Lが白羽君の受難、M～Zは白羽君からの挑戦状で構成されています。\n基礎的なアルゴリズムの習得や確認と、活用力の育成にご利用ください。\n\nこれから白羽君には12個の困難に立ち向かっていく運命が待ち受けています。\n始まりの扉を開くのは貴方です。\n入力として正の整数nが与えられます。\n468をnで割った余りが扉の鍵になります。鍵の値を求めてみましょう。",
+    "condition": "1 \\le n \\le 468",
+    "input": "n",
+    "output": "解を一行で出力し、最後に改行してください。",
+    "samples": [
+      {
+        "input": "5",
+        "output": "3",
+        "clar": "468を5で割った余りは3です。"
+      },
+      {
+        "input": "7",
+        "output": "6",
+        "clar": ""
+      },
+      {
+        "input": "12",
+        "output": "0",
+        "clar": "解は0であることも考えられます。"
+      },
+      {
+        "input": "326",
+        "output": "142",
+        "clar": "3/26は白羽君の誕生日です。"
+      }
+    ]
+  },
+  "codeJudge": false
 }

@@ -2,6 +2,40 @@
 
 import { Server } from "https://js.sabae.cc/Server.js"
 
+async function postData(url = "", data = {}) {
+  const response = await fetch(url, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify(data),
+  });
+  // return response.json();
+  return response;
+}
+
+async function getData(url = "", data = {}) {
+  const response = await fetch(url, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify(data),
+  });
+  // return response.json();
+  return response;
+}
+
 class body extends Server {
   async api(path, prm) {
     let retobj = null;
@@ -36,119 +70,165 @@ class body extends Server {
       // 提出
       case "submission":
         if (path.split("/")[3] == "write") {
+          // テストケースの取得
+          const testcaseFileText = await Deno.readTextFile("./Testcases/" + prm.problem);
+          const testcaseFile = JSON.parse(testcaseFileText);
+          // 登録データの作成
           const submissionData = {
             "source": prm.source,
             "language": prm.language,
             "problem": prm.problem,
             "status": 0,
-            "internalId": 0,
             "subDate": new Date(),
             "score": prm.score,
             "judges": [],
-            "internalStatus": false
+            "forcedExit": false,
           }
+          // 待ちジャッジを設定
+          testcaseFile.forEach(testcase => {
+            submissionData.judges.push({
+              "internalId": "",
+              "input": testcase.input,
+              "expected": testcase.output,
+              "output": "",
+              "resultText": "",
+              "isFinished": false
+            });
+          });
           if (prm.score != null) submissionData.score = prm.score;
           let nextSubId = 1;
           for await (const _i of Deno.readDir("submits")) nextSubId++;
           const fileName = "sub" + ("00000000" + nextSubId).slice(-8) + ".json";
-          Deno.writeTextFile("./submits/" + fileName, JSON.stringify(submissionData));
+          await Deno.writeTextFile("./submits/" + fileName, JSON.stringify(submissionData));
           retobj = fileName;
         } else if (path.split("/")[3] == "search") {
           retobj = await Deno.readTextFile("./submits/" + prm.subid);
         } else if (path.split("/")[3] == "startJudge") {
+          // ジャッジ開始
           const subFileText = await Deno.readTextFile("./submits/" + prm.subid);
           let subFile = JSON.parse(subFileText);
           subFile.status = -1;
-          Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
+          await Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
         } else if (path.split("/")[3] == "runJudge") {
           // 提出ファイルの取得
           const subFileText = await Deno.readTextFile("./submits/" + prm.subid);
           let subFile = JSON.parse(subFileText);
-          // 提出ファイルの内部状態を書き換える
-          subFile.internalStatus = true;
-          Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
           // 問題ファイルの取得
           const problemFileText = await Deno.readTextFile("./Problems/" + subFile.problem);
           const problemFile = JSON.parse(problemFileText);
           // テストケースの取得
           const testcaseFileText = await Deno.readTextFile("./Testcases/" + subFile.problem);
           const testcaseFile = JSON.parse(testcaseFileText);
-          const response = await fetch(
-            "http://api.paiza.io:80/runners/create",
-            {
-              method: "POST",
-              mode: "cors",
-              cache: "no-cache",
-              credentials: "same-origin",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              redirect: "follow",
-              referrerPolicy: "no-referrer",
-              body: JSON.stringify({
+          // 実行していないテストがある？
+          if (subFile.judges.map(r => r.internalId).includes("")) {
+            // そのテストケースを実行する
+            const targetJudge = subFile.judges.map(r => r.internalId).findIndex(x => x === "");
+            const response = await postData(
+              "http://api.paiza.io:80/runners/create",
+              {
                 source_code: subFile.source,
                 language: subFile.language,
-                input: "hoge",
-                longpoll: true,
-                longpoll_timeout: problemFile.timeLimit,
+                input: String(subFile.judges[targetJudge].input),
                 api_key: "guest",
-              }),
-            }
-          );
-          // IE処理
-          if (response.status / 100 != 2) subFile.status = -7369;
-          // 内部ID付加
-          subFile.internalId = response.json().id;
-          Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
-        } else if (path.split("/")[3] == "getJudgeStatus") {
-          // 提出ファイルの取得
-          const subFileText = await Deno.readTextFile("./submits/" + prm.subid);
-          let subFile = JSON.parse(subFileText);
-          // 提出内部ID
-          const subInternalId = subFile.internalId;
-          // get_status
-          const currentStatus = await fetch(
-            "http://api.paiza.io:80/runners/get_status",
-            {
-              id: subInternalId,
-              api_key: "guest"
-            }
-          );
-          if (currentStatus.json().stats == null){
-            // error
-            if(currentStatus.json().error.startsWith("longpoll")){
-              // TLE
-              subFile.status = -8476;
-            }else{
-              // それ以外の条件が不明なので
-              subFile.status = -7776;
-            }
-          } else if (currentStatus.json().status == "completed") {
-            // 結果の解析
-            const detail = await fetch(
-              "http://api.paiza.io:80/runners/get_details",
+              }
+            );
+            const responseJSON = await response.json();
+            subFile.judges[targetJudge].internalId = responseJSON.id;
+            await Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
+          }
+          // 終了していないテストがある？
+          let res_no = 0;
+          if (subFile.judges.map(r => r.isFinished).includes(false)) {
+            // そのテストケースの状態を確認
+            const targetJudge = subFile.judges.map(r => r.isFinished).findIndex(x => x == false);
+            res_no = targetJudge;
+            if(subFile.judges[targetJudge].internalId == "") return [res_no, subFile.judges.length];
+            const currentStatus = await getData(
+              "http://api.paiza.io:80/runners/get_status",
               {
-                id: subInternalId,
+                id: subFile.judges[targetJudge].internalId,
                 api_key: "guest"
               }
             );
-            if(detail.json().build_result == "failure"){
-              // CE
-              subFile.status = -6769;
-            }else{
-              // RE
-              if(detail.json().result == "failure"){
-                subFile.status = -8269;
-              }else{
-                // WA判定
-                const problemFile
+            const currentStatusJSON = await currentStatus.json();
+            if (currentStatusJSON.status == null) {
+              subFile.judges[targetJudge].isFinished = true;
+              // error
+              if (currentStatusJSON.error.startsWith("longpoll")) {
+                // TLE
+                subFile.judges[targetJudge].resultText = "TLE";
+              } else {
+                // それ以外の条件が不明なので
+                subFile.judges[targetJudge].resultText = "MLE";
+              }
+            } else if (currentStatusJSON.status == "completed") {
+              subFile.judges[targetJudge].isFinished = true;
+              // 結果の解析
+              const detail = await getData(
+                "http://api.paiza.io:80/runners/get_details",
+                {
+                  id: subFile.judges[targetJudge].internalId,
+                  api_key: "guest"
+                }
+              );
+              const detailJSON = await detail.json();
+              console.log("detail " + JSON.stringify(detailJSON));
+              if (detailJSON.build_result == "failure") {
+                // CE
+                subFile.judges[targetJudge].resultText = "CE";
+                subFile.judges[targetJudge].output = detailJSON.build_stderr;
+              } else {
+                // RE
+                if (detailJSON.result == "failure") {
+                  subFile.judges[targetJudge].resultText = "RE";
+                  subFile.judges[targetJudge].output = detailJSON.stderr;
+                } else {
+                  subFile.judges[targetJudge].output = detailJSON.stdout;
+                  // WA判定
+                  // 特殊ジャッジではない？
+                  if (problemFile.codeJudge) {
+                    // 特殊ジャッジ
+                  } else if (detailJSON.stdout != (subFile.judges[targetJudge].expected + "\n")) {
+                    // 通常ジャッジ WA
+                    subFile.judges[targetJudge].resultText = "WA";
+                  } else {
+                    // 通常ジャッジ AC
+                    subFile.judges[targetJudge].resultText = "AC";
+                  }
+                }
               }
             }
-            // ジャッジ未実行へ、テストデータ+1
-            subFile.internalStatus = true;
-            subFile.status++;
-            Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
+          } else {
+            // テスト終了
+            console.log("____________STR " + String(subFile.status) + " " + testcaseFile.length);
+            if (subFile.judges.filter(r => r.resultText == "IE").length > 1) {
+              // IE
+              subFile.status = -7369;
+            } else if (subFile.judges.filter(r => r.resultText == "CE").length > 1) {
+              // CE
+              subFile.status = -6769;
+            } else if (subFile.judges.filter(r => r.resultText == "WA").length > 1) {
+              // WA
+              subFile.status = -8765;
+            } else if (subFile.judges.filter(r => r.resultText == "RE").length > 1) {
+              // RE
+              subFile.status = -8269;
+            } else if (subFile.judges.filter(r => r.resultText == "MLE").length > 1) {
+              // MLE
+              subFile.status = -7776;
+            } else if (subFile.judges.filter(r => r.resultText == "TLE").length > 1) {
+              // TLE
+              subFile.status = -8476;
+            } else if (subFile.judges.filter(r => r.resultText == "OLE").length > 1) {
+              // OLE
+              subFile.status = -7976;
+            } else {
+              // AC
+              subFile.status = 6567;
+            }
           }
+          await Deno.writeTextFile("./submits/" + prm.subid, JSON.stringify(subFile));
+          retobj = [res_no, subFile.judges.length];
         }
         break;
 

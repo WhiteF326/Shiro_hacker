@@ -1,1 +1,0 @@
-{"source":"#include <iostream>\nusing namespace std;\n\nint main(){\n    int n; cin >> n;\n    cout << 468 % n << endl;\n}","language":"cpp","problem":"0003.json","status":1}
