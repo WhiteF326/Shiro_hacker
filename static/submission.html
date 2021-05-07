@@ -81,7 +81,6 @@
         // AC
       } else {
         // ジャッジ待ちリクエスト
-        // ジャッジを進める
         const res = await fetchJSON("api/submission/runJudge", { "subid": id });
         document.getElementById("resultStatus").innerText = "WJ " + res[0] + "/" + res[1];
       }

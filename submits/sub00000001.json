@@ -1,0 +1,331 @@
+{
+    "source": "#include <iostream>\nusing namespace std;\n\nint main(){\n  int n; cin >> n;\n  cout << 468 % n << endl;\n}",
+    "language": "cpp",
+    "problem": "0003.json",
+    "status": 6567,
+    "subDate": "2021-05-07T03:26:02.105Z",
+    "score": "100",
+    "judges": [
+        {
+            "internalId": "4Ow81IXBbw_dYsyreWzsaw",
+            "input": 285,
+            "expected": 183,
+            "output": "183\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "NNI4K_NQ950YpXCGZjGbZw",
+            "input": 199,
+            "expected": 70,
+            "output": "70\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "VZjpB8xL1YD6vgpwR9Ae0Q",
+            "input": 406,
+            "expected": 62,
+            "output": "62\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "4CkfuPxStQ4W_QZZQwINew",
+            "input": 75,
+            "expected": 18,
+            "output": "18\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "9rEHyep25uPvBBddL-0TeA",
+            "input": 133,
+            "expected": 69,
+            "output": "69\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "qqlZNS5rCmcemO0wr7UDJw",
+            "input": 144,
+            "expected": 36,
+            "output": "36\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "z1slSvlykP4U_CDtK_MLsw",
+            "input": 419,
+            "expected": 49,
+            "output": "49\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "uV7xqqGoEOr7CdIxFsTdGA",
+            "input": 437,
+            "expected": 31,
+            "output": "31\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "t42DG7wzBWNC9NrsYHDg4A",
+            "input": 420,
+            "expected": 48,
+            "output": "48\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "zaW0y130pKIkRdkGn1dL5w",
+            "input": 123,
+            "expected": 99,
+            "output": "99\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "0WQ1wLfyggOjNiL3sZN4WQ",
+            "input": 287,
+            "expected": 181,
+            "output": "181\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "FExNOBycieawvPljma3Ing",
+            "input": 310,
+            "expected": 158,
+            "output": "158\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "omGp-QMu3RGXHPGX161Few",
+            "input": 227,
+            "expected": 14,
+            "output": "14\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "scBjrw0TtofEcc5zJrTLlQ",
+            "input": 134,
+            "expected": 66,
+            "output": "66\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "Yp0iO61xMGiRmc7gMQyYFw",
+            "input": 357,
+            "expected": 111,
+            "output": "111\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "1m0QxVAIeBkmm3XxcqOepg",
+            "input": 152,
+            "expected": 12,
+            "output": "12\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "qtjHIgtmE3oSiXXFo1qekQ",
+            "input": 428,
+            "expected": 40,
+            "output": "40\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "HPWYH2Bu3MPNs625PaPicA",
+            "input": 245,
+            "expected": 223,
+            "output": "223\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "BrYA7CokMlSQ3IKKSbAldQ",
+            "input": 363,
+            "expected": 105,
+            "output": "105\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "8T_IbLQZL5RPOIJH5UsvUQ",
+            "input": 221,
+            "expected": 26,
+            "output": "26\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "pMa1VsOwbYxpvFlOqflBlw",
+            "input": 15,
+            "expected": 3,
+            "output": "3\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "EQ8DJSaRod5TjfOFjn04rw",
+            "input": 233,
+            "expected": 2,
+            "output": "2\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "cZLdbQqiGyXpaPNepAit3Q",
+            "input": 86,
+            "expected": 38,
+            "output": "38\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "1iyt6w2c8DilgmoMMIQcNQ",
+            "input": 279,
+            "expected": 189,
+            "output": "189\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "6jyGBRgGNAnBP3v9QPnMdg",
+            "input": 131,
+            "expected": 75,
+            "output": "75\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "MEH_Zbz4V-kG9Vbc9foteA",
+            "input": 134,
+            "expected": 66,
+            "output": "66\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "Emus8jlUya0ITjtcJNHFUA",
+            "input": 372,
+            "expected": 96,
+            "output": "96\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "wGXaK-Ej8vWig6awhRWeBw",
+            "input": 68,
+            "expected": 60,
+            "output": "60\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "2YtWRy9PPpeZyZtILm2LNg",
+            "input": 408,
+            "expected": 60,
+            "output": "60\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "Jir4PF1CcfVYgbU-Ihstzw",
+            "input": 367,
+            "expected": 101,
+            "output": "101\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "5Jkxi0OqNKUbWCrvPKJ4Bg",
+            "input": 429,
+            "expected": 39,
+            "output": "39\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "dUDI7d7DXGSn7qs79arcvA",
+            "input": 10,
+            "expected": 8,
+            "output": "8\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "E6xYnxfaUu21J_9qut8x2Q",
+            "input": 80,
+            "expected": 68,
+            "output": "68\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "n4LRRdLNnXydNw5Kih6VuA",
+            "input": 346,
+            "expected": 122,
+            "output": "122\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "PeaDuU-CwAtW54SzMj4ZQQ",
+            "input": 196,
+            "expected": 76,
+            "output": "76\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "Jxv_8r4TBsrbvvTIUevDOQ",
+            "input": 397,
+            "expected": 71,
+            "output": "71\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "E3prKhUzGLreP2F7mDRSAg",
+            "input": 282,
+            "expected": 186,
+            "output": "186\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "7hs43ppy0641qvxK1WFxMQ",
+            "input": 217,
+            "expected": 34,
+            "output": "34\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "uNsU9QilxW3g3S1BrigPuQ",
+            "input": 249,
+            "expected": 219,
+            "output": "219\n",
+            "resultText": "AC",
+            "isFinished": true
+        },
+        {
+            "internalId": "KFLhk1wQkJ3bMgFMv27s_g",
+            "input": 26,
+            "expected": 0,
+            "output": "0\n",
+            "resultText": "AC",
+            "isFinished": true
+        }
+    ],
+    "forcedExit": false
+}
