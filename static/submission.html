@@ -36,48 +36,56 @@
         document.getElementById("resultStatus").style.backgroundColor = "crimson";
         document.getElementById("resultStatus").innerText = "IE";
         document.getElementById("score").innerText = "0";
+        buildTable(JSON.parse(submitStatusText));
         // IE
       } else if (submitStatus == -6769) {
         clearInterval(timer);
         document.getElementById("resultStatus").style.backgroundColor = "darkgray";
         document.getElementById("resultStatus").innerText = "CE";
         document.getElementById("score").innerText = "0";
+        buildTable(JSON.parse(submitStatusText));
         // CE
       } else if (submitStatus == -8765) {
         clearInterval(timer);
         document.getElementById("resultStatus").style.backgroundColor = "yellow";
         document.getElementById("resultStatus").innerText = "WA";
         document.getElementById("score").innerText = "0";
+        buildTable(JSON.parse(submitStatusText));
         // WA
       } else if (submitStatus == -8269) {
         clearInterval(timer);
         document.getElementById("resultStatus").style.backgroundColor = "seagreen";
         document.getElementById("resultStatus").innerText = "RE";
         document.getElementById("score").innerText = "0";
+        buildTable(JSON.parse(submitStatusText));
         // RE
       } else if (submitStatus == -7776) {
         clearInterval(timer);
         document.getElementById("resultStatus").style.backgroundColor = "dodgerblue";
         document.getElementById("resultStatus").innerText = "MLE";
         document.getElementById("score").innerText = "0";
+        buildTable(JSON.parse(submitStatusText));
         // MLE
       } else if (submitStatus == -8476) {
         clearInterval(timer);
         document.getElementById("resultStatus").style.backgroundColor = "greenyellow";
         document.getElementById("resultStatus").innerText = "TLE";
         document.getElementById("score").innerText = "0";
+        buildTable(JSON.parse(submitStatusText));
         // TLE
       } else if (submitStatus == -7976) {
         clearInterval(timer);
         document.getElementById("resultStatus").style.backgroundColor = "plum";
         document.getElementById("resultStatus").innerText = "OLE";
         document.getElementById("score").innerText = "0";
+        buildTable(JSON.parse(submitStatusText));
         // OLE
       } else if (submitStatus == 6567) {
         clearInterval(timer);
         document.getElementById("resultStatus").style.backgroundColor = "paleturquoise";
         document.getElementById("resultStatus").innerText = "AC";
         document.getElementById("score").innerText = JSON.parse(submitStatusText).score;
+        buildTable(JSON.parse(submitStatusText));
         // AC
       } else {
         // ジャッジ待ちリクエスト
@@ -85,6 +93,32 @@
         document.getElementById("resultStatus").innerText = "WJ " + res[0] + "/" + res[1];
       }
       // ジャッジ履歴出したい
+    }
+
+    function buildTable(submitStatus) {
+      submitStatus.judges.forEach(eachJudge => {
+        // 行
+        const tableLine = document.createElement("tr");
+        // ジャッジ結果
+        const judgeResultCell = document.createElement("td");
+        judgeResultCell.innerText = eachJudge.resultText;
+        tableLine.appendChild(judgeResultCell);
+        // 入力
+        const inputCell = document.createElement("td");
+        inputCell.innerText = eachJudge.input;
+        tableLine.appendChild(inputCell);
+        // 正答
+        const expectedCell = document.createElement("td");
+        expectedCell.innerText = eachJudge.expected;
+        tableLine.appendChild(expectedCell);
+        // 出力
+        const outputCell = document.createElement("td");
+        outputCell.innerText = eachJudge.output;
+        tableLine.appendChild(outputCell);
+        // 表に追加
+        document.getElementById("resultDetail").appendChild(tableLine);
+      });
+
     }
 
     window.onload = async () => {
@@ -180,12 +214,30 @@
           <tr>
             <td><b>結果</b></td>
             <td>
-              <div id="resultStatus" style="border: 1px gray solid; border-radius: 10%; display: inline"></div>
+              <div id="resultStatus"
+                style="border: 2px rgb(53, 53, 53) solid; border-radius: 15%; display: inline; padding: 5px;"></div>
             </td>
           </tr>
         </tbody>
       </table>
     </span>
+    <br>
+    <span>
+      <details>
+        <summary>ジャッジ詳細</summary>
+        <table>
+          <caption>詳細</caption>
+          <tbody id="resultDetail">
+            <tr>
+              <th>結果</th>
+              <th>入力</th>
+              <th>正答</th>
+              <th>出力</th>
+            </tr>
+          </tbody>
+        </table>
+      </span>
+      </details>
   </div>
 
   <div style="display: none;">
