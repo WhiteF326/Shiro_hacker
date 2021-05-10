@@ -265,7 +265,26 @@ class body extends Server {
         }
         break;
 
-
+      case "user":
+        if (path.split("/")[3] == "register") {
+          const userListText = await Deno.readTextFile("./Users/User.json");
+          const userList = JSON.parse(userListText);
+          if(userList.map(r => r.username).includes(prm.id)){
+            retobj = false;
+          }else{
+            userList.push(
+              {
+                "username": prm.id,
+                "password": prm.pass,
+                "rate": 0,
+                "subs": []
+              }
+            );
+            await Deno.writeTextFile("./Users/User.json", JSON.stringify(userList));
+            retobj = true;
+          }
+        }
+        break;
 
       default:
         break;

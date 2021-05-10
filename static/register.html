@@ -7,6 +7,13 @@
   <title>Shiro_hacker</title>
 </head>
 
+<style>
+  input{
+    transition-duration: 1s;
+    transition-property: background;
+  }
+</style>
+
 <body>
 
   <script type="module">
@@ -26,17 +33,38 @@
 
     window.onload = async () => {
       // 登録
-      document.getElementById("regist").addEventListener("click", () => {
+      document.getElementById("userId").addEventListener("change", () => {
+        document.getElementById("userId").style.backgroundColor = "";
+        document.getElementById("cautionPlace").innerHTML = 
+              document.getElementById("cautionPlace").innerHTML.replace("ユーザーIDの文字数が足りません。", "");
+      });
+      document.getElementById("password").addEventListener("change", () => {
+        document.getElementById("password").style.backgroundColor = "";
+        document.getElementById("cautionPlace").innerHTML = 
+              document.getElementById("cautionPlace").innerHTML.replace("パスワードの文字数が足りません。", "");
+        document.getElementById("cautionPlace").innerHTML = 
+              document.getElementById("cautionPlace").innerHTML.replace("パスワードに半角英数字以外が含まれています。", "");
+      });
+
+      document.getElementById("regist").addEventListener("click", async () => {
         let sendFlg = true;
+        document.getElementById("cautionPlace").innerHTML = "";
         if (document.getElementById("userId").value.length < 4) {
           // 4文字
+          document.getElementById("userId").style.backgroundColor = "crimson";
+          document.getElementById("cautionPlace").innerHTML += "ユーザーIDの文字数が足りません。<br>";
           sendFlg = false;
         }
         if (document.getElementById("password").value.length < 8) {
           // 8文字
+          document.getElementById("password").style.backgroundColor = "crimson";
+          document.getElementById("cautionPlace").innerHTML += "パスワードの文字数が足りません。<br>";
           sendFlg = false;
-        } else if (!(document.getElementById("password").match(new RegExp("/^[a-zA-Z0-9]+$/")))){
+        }
+        if (!(/^[a-zA-Z0-9]+/.test(document.getElementById("password").value))){
           // パターン不一致
+          document.getElementById("password").style.backgroundColor = "crimson";
+          document.getElementById("cautionPlace").innerHTML += "パスワードに半角英数字以外が含まれています。<br>";
           sendFlg = false;
         }
         if (sendFlg) {
@@ -52,9 +80,10 @@
             // 登録成功
             localStorage.setItem("userId", document.getElementById("userId").value);
             localStorage.setItem("password", document.getElementById("password").value);
+            window.location = "index.html";
           } else {
             // 登録失敗
-            
+            document.getElementById("cautionPlace").innerHTML = "そのユーザー名は既に利用されています。<br>大変申し訳ありませんが異なるユーザー名をお試しください。";
           }
         }
       });
@@ -93,6 +122,7 @@
       ※4文字以上<br>
       <input type="text" id="password" placeholder="パスワード">
       ※8文字以上、半角英数字のみ<br>
+      <span id="cautionPlace"></span>
       <button id="regist">登録</button>
     </span>
   </div>
