@@ -1,0 +1,13 @@
+{
+  "visible": true,
+  "name": "テスト",
+  "sets": [
+      {
+          "filename": "0006.json",
+          "no": "A",
+          "score": "100"
+      }
+  ],
+  "starts": "2021-01-01 12:00:00",
+  "time": "6000"
+}

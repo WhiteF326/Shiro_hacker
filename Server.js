@@ -142,7 +142,7 @@ class body extends Server {
             // そのテストケースの状態を確認
             const targetJudge = subFile.judges.map(r => r.isFinished).findIndex(x => x == false);
             res_no = targetJudge;
-            if(subFile.judges[targetJudge].internalId == "") return [res_no, subFile.judges.length];
+            if (subFile.judges[targetJudge].internalId == "") return [res_no, subFile.judges.length];
             const currentStatus = await getData(
               "http://api.paiza.io:80/runners/get_status",
               {
@@ -188,6 +188,27 @@ class body extends Server {
                   // 特殊ジャッジではない？
                   if (problemFile.codeJudge) {
                     // 特殊ジャッジ
+                    const p = await Deno.run({
+                      cmd: ["py", "./Judge/" + subFile.problem.split(".")[0] + "/runner.py"],
+                      stdin: "piped",
+                      stdout: "piped",
+                    });
+                    await p.stdin.write(new TextEncoder().encode(
+                      subFile.judges[targetJudge].input + "\n" +
+                      subFile.judges[targetJudge].expected + "\n" +
+                      detailJSON.stdout + "\n"
+                    ));
+                    await p.stdin.close();
+                    const { code } = await p.status();
+                    if (code == 0){
+                      const rawOutput = await p.output();
+                      const check = new TextDecoder().decode(rawOutput);
+                      if(check == "AC\r\n"){
+                        subFile.judges[targetJudge].resultText = "AC";
+                      }else{
+                        subFile.judges[targetJudge].resultText = "WA";
+                      }
+                    }
                   } else if (detailJSON.stdout != (subFile.judges[targetJudge].expected + "\n")) {
                     // 通常ジャッジ WA
                     subFile.judges[targetJudge].resultText = "WA";
@@ -243,6 +264,8 @@ class body extends Server {
           retobj = langName;
         }
         break;
+
+
 
       default:
         break;
