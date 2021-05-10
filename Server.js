@@ -283,6 +283,15 @@ class body extends Server {
             await Deno.writeTextFile("./Users/User.json", JSON.stringify(userList));
             retobj = true;
           }
+        } else if (path.split("/")[3] == "search") {
+          const userListText = await Deno.readTextFile("./Users/User.json");
+          const userList = JSON.parse(userListText);
+          if(userList.find(r => r.username == prm.id)){
+            // passは一致するか？
+            if(userList.find(r => r.username == prm.id).password == prm.pass){
+              // 
+            }
+          }
         }
         break;
 
