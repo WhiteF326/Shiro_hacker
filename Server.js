@@ -289,7 +289,10 @@ class body extends Server {
           if(userList.find(r => r.username == prm.id)){
             // passは一致するか？
             if(userList.find(r => r.username == prm.id).password == prm.pass){
-              // 
+              // 一致する
+              retobj = userList.find(r => r.username == prm.id);
+            } else {
+              retobj = false;
             }
           }
         }

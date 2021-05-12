@@ -76,6 +76,32 @@
         userDataElement.appendChild(document.createElement("br"));
       } else {
         // ログインを試行
+        const loginTry = await fetchJSON(
+          "api/user/search",
+          {
+            "id": localStorage.getItem("userId"),
+            "pass": localStorage.getItem("password")
+          }
+        );
+        if(loginTry){
+          // ログイン成功
+          const userDataElement = document.getElementById("userData");
+          userDataElement.appendChild(document.createTextNode(loginTry.username));
+          userDataElement.appendChild(document.createElement("br"));
+        }else{
+          // ログイン失敗
+          const loginButton = document.createElement("button");
+          loginButton.innerText = "ログイン";
+          loginButton.style.marginRight = "30px";
+          userDataElement.appendChild(loginButton);
+
+          const createAccountButton = document.createElement("button");
+          createAccountButton.innerText = "新規登録";
+          userDataElement.appendChild(createAccountButton);
+          userDataElement.addEventListener("click", () => {
+            window.location = "register.html";
+          });
+        }
       }
     }
 

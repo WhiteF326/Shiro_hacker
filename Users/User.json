@@ -1,13 +1,1 @@
-[
-  {
-    "username": "test",
-    "password": "testtest",
-    "rate": 0,
-    "subs": [
-      "00000001",
-      "00000002",
-      "00000003",
-      "00000004"
-    ]
-  }
-]
+[{"username":"test","password":"testtest","rate":0,"subs":["00000001","00000002","00000003","00000004"]},{"username":"Shiroha_F14","password":"ignitex326","rate":0,"subs":[]}]
