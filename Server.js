@@ -1,6 +1,6 @@
 // server.js
 
-import { Server } from "https://js.sabae.cc/Server.js"
+import { Server } from "https://js.sabae.cc/Server.js";
 
 async function postData(url = "", data = {}) {
   const response = await fetch(url, {
@@ -274,7 +274,7 @@ class body extends Server {
           }else{
             userList.push(
               {
-                "username": prm.id,
+                "userId": prm.id,
                 "password": prm.pass,
                 "rate": 0,
                 "subs": []
@@ -286,11 +286,11 @@ class body extends Server {
         } else if (path.split("/")[3] == "search") {
           const userListText = await Deno.readTextFile("./Users/User.json");
           const userList = JSON.parse(userListText);
-          if(userList.find(r => r.username == prm.id)){
+          if(userList.find(r => r.userId == prm.id)){
             // passは一致するか？
-            if(userList.find(r => r.username == prm.id).password == prm.pass){
+            if(userList.find(r => r.userId == prm.id).password == prm.pass){
               // 一致する
-              retobj = userList.find(r => r.username == prm.id);
+              retobj = userList.find(r => r.userId == prm.id);
             } else {
               retobj = false;
             }

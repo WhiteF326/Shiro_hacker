@@ -7,6 +7,13 @@
   <title>Shiro_hacker</title>
 </head>
 
+<style>
+  input{
+    transition-duration: 1s;
+    transition-property: background;
+  }
+</style>
+
 <body>
 
   <script type="module">
@@ -25,7 +32,25 @@
     }
 
     window.onload = async () => {
-      // 
+      // ログイン
+
+      document.getElementById("sendPrm").addEventListener("click", async () => {
+        // 入力情報を問い合わせる
+        const tryLogin = await fetchJSON(
+          "api/user/search",
+          {
+            id: document.getElementById("userId").value,
+            pass: document.getElementById("password").value
+          }
+        );
+        if(tryLogin){
+          localStorage.setItem("userId", tryLogin.userId);
+          localStorage.setItem("password", tryLogin.password);
+          window.location = "index.html";
+        }else{
+          document.getElementById("cautionPlace").innerHTML = "ユーザーIDまたはパスワードが異なります。<br>"
+        }
+      });
     }
 
     // ページ遷移
@@ -49,15 +74,22 @@
   </span>
   <hr>
   <!-- <video src="materials/Banner.mp4" autoplay loop></video> -->
-  <h1 style="display: block;">Shiro_hacker</h1>
-  <p>
-    そこら辺のエンジニアである白羽(
-    <a href="https://twitter.com/shiroha_F14" target="_blank">@shiroha_F14</a>
-    )が制作した競技プログラミングのサイトです。<br>
-    運営目的としては、本格的な競技プログラミングに向けての練習を主としております。
-  </p>
-
-  
+  <div style="display: block; margin-top: 20px;">
+    <span>
+      <h2 style="display: inline;">ログイン</h2>
+    </span>
+  </div>
+  <br>
+  <div>
+    <span>
+      <input type="text" id="userId" placeholder="ユーザーID">
+      ※4文字以上<br>
+      <input type="text" id="password" placeholder="パスワード">
+      ※8文字以上、半角英数字のみ<br>
+      <span id="cautionPlace"></span>
+      <button id="sendPrm">ログイン</button>
+    </span>
+  </div>
 
 </body>
 

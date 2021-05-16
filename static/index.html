@@ -12,7 +12,7 @@
   <script type="module">
     // import ky from "./modules//ky.js";
     import { fetchJSON } from "https://js.sabae.cc/fetchJSON.js";
-
+    
     function makeDate(dayString) {
       const retobj = new Date();
       retobj.setUTCFullYear(parseInt(dayString.split(" ")[0].split("-")[0]));
@@ -64,14 +64,17 @@
         const loginButton = document.createElement("button");
         loginButton.innerText = "ログイン";
         loginButton.style.marginRight = "30px";
+        loginButton.addEventListener("click", () => {
+          window.location = "login.html";
+        });
         userDataElement.appendChild(loginButton);
 
         const createAccountButton = document.createElement("button");
         createAccountButton.innerText = "新規登録";
-        userDataElement.appendChild(createAccountButton);
-        userDataElement.addEventListener("click", () => {
+        createAccountButton.addEventListener("click", () => {
           window.location = "register.html";
         });
+        userDataElement.appendChild(createAccountButton);
 
         userDataElement.appendChild(document.createElement("br"));
       } else {
@@ -86,21 +89,45 @@
         if(loginTry){
           // ログイン成功
           const userDataElement = document.getElementById("userData");
-          userDataElement.appendChild(document.createTextNode(loginTry.username));
+          // color?
+          const userColor = [
+            "Black",
+            "Purple",
+            "Blue",
+            "Aqua",
+            "Forestgreen",
+            "Yellow",
+            "Orange",
+            "Red"
+          ][Math.min(7, Math.floor(loginTry.rate / 300))];
+          // userName
+          const userNameElement = document.createElement("span");
+          userNameElement.style.fontSize = "24px";
+          userNameElement.style.color = userColor;
+          console.log(userNameElement.style.color);
+          userNameElement.appendChild(document.createTextNode(loginTry.userId));
+          userDataElement.appendChild(userNameElement);
           userDataElement.appendChild(document.createElement("br"));
+          // user Rating
+          const ratingElement = document.createElement("span");
+          ratingElement.style.color = userColor;
+          ratingElement.appendChild(document.createTextNode("Rating "));
+          ratingElement.appendChild(document.createTextNode(loginTry.rate));
+          userDataElement.appendChild(ratingElement);
         }else{
           // ログイン失敗
           const loginButton = document.createElement("button");
           loginButton.innerText = "ログイン";
           loginButton.style.marginRight = "30px";
+
           userDataElement.appendChild(loginButton);
 
           const createAccountButton = document.createElement("button");
           createAccountButton.innerText = "新規登録";
-          userDataElement.appendChild(createAccountButton);
-          userDataElement.addEventListener("click", () => {
+          createAccountButton.addEventListener("click", () => {
             window.location = "register.html";
           });
+          userDataElement.appendChild(createAccountButton);
         }
       }
     }

@@ -1,0 +1,10 @@
+レーティング
+以上    未満    色      コード
+0       300     黒      Black
+300     600     紫      Purple
+600     900     青      Blue
+900     1200    水      Aqua
+1200    1500    緑      Forestgreen
+1500    1800    黄      Yellow
+1800    2100    橙      Ornge
+2100    inf     赤      Red
