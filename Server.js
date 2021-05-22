@@ -78,6 +78,7 @@ class body extends Server {
             "source": prm.source,
             "language": prm.language,
             "problem": prm.problem,
+            "userId": prm.userId,
             "status": 0,
             "subDate": new Date(),
             "score": prm.score,
@@ -269,7 +270,7 @@ class body extends Server {
         if (path.split("/")[3] == "register") {
           const userListText = await Deno.readTextFile("./Users/User.json");
           const userList = JSON.parse(userListText);
-          if(userList.map(r => r.username).includes(prm.id)){
+          if(userList.map(r => r.userId).includes(prm.id)){
             retobj = false;
           }else{
             userList.push(
@@ -294,6 +295,8 @@ class body extends Server {
             } else {
               retobj = false;
             }
+          } else {
+            retobj = false;
           }
         }
         break;

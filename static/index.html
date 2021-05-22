@@ -86,9 +86,9 @@
             "pass": localStorage.getItem("password")
           }
         );
+        const userDataElement = document.getElementById("userData");
         if(loginTry){
           // ログイン成功
-          const userDataElement = document.getElementById("userData");
           // color?
           const userColor = [
             "Black",
@@ -119,6 +119,9 @@
           const loginButton = document.createElement("button");
           loginButton.innerText = "ログイン";
           loginButton.style.marginRight = "30px";
+          loginButton.addEventListener("click", () => {
+            window.location = "login.html";
+          });
 
           userDataElement.appendChild(loginButton);
 

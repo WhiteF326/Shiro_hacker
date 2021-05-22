@@ -1,19 +1,21 @@
 [
-    {
-        "userId": "test",
-        "password": "testtest",
-        "rate": 0,
-        "subs": [
-            "00000001",
-            "00000002",
-            "00000003",
-            "00000004"
-        ]
-    },
-    {
-        "userId": "Shiroha_F14",
-        "password": "ignitex326",
-        "rate": 0,
-        "subs": []
-    }
+  {
+    "userId": "test",
+    "password": "testtest",
+    "rate": 0,
+    "subs": [
+      "00000001",
+      "00000002",
+      "00000003",
+      "00000004"
+    ],
+    "problems": []
+  },
+  {
+    "userId": "Shiroha_F14",
+    "password": "ignitex326",
+    "rate": 0,
+    "subs": [],
+    "problems": []
+  }
 ]

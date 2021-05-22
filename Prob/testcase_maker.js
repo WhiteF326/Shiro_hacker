@@ -3,11 +3,11 @@ let writeobj = [];
 
 for (let v = 1; v <= 40; v++) {
     let i = Math.min(Math.floor(Math.random() * v) + 1, 50);
-    let j = Math.min(Math.floor(Math.random() * v * 10 + v) + 1, 468);
+    let j = Math.min(Math.floor(Math.random() * v * 5 + v) + 1, 234);
     if (i > j) {
         let tmp = i; i = j; j = tmp;
     } else if (i == j) {
-        j = ((j + Math.floor(Math.random() * 466) + 1) % 468);
+        j = ((j + Math.floor(Math.random() * 233) + 1) % 234);
         if (i > j) {
             let tmp = i; i = j; j = tmp;
         }

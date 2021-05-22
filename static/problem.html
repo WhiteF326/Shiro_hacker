@@ -181,26 +181,44 @@
 
         });
       }
-      // ローカルから言語の選択状況を取得
-      if (localStorage.getItem("selectedLanguage") !== null) {
-        const languagesListChildNodes = document.getElementById("language").childNodes;
-        for (let i = 0; i < languagesListChildNodes.length; i++) {
-          if (languagesListChildNodes[i].value == localStorage.getItem("selectedLanguage")) {
-            languagesListChildNodes[i].selected = true;
+      // ログインできている場合のみ提出できるように
+      const loginTry = await fetchJSON(
+        "api/user/search",
+        {
+          "id": localStorage.getItem("userId"),
+          "pass": localStorage.getItem("password")
+        }
+      );
+      console.log(loginTry);
+      if (loginTry) {
+        // ローカルから言語の選択状況を取得
+        if (localStorage.getItem("selectedLanguage") !== null) {
+          const languagesListChildNodes = document.getElementById("language").childNodes;
+          for (let i = 0; i < languagesListChildNodes.length; i++) {
+            if (languagesListChildNodes[i].value == localStorage.getItem("selectedLanguage")) {
+              languagesListChildNodes[i].selected = true;
+            }
           }
         }
-      }
-      // 提出ボタン
-      document.getElementById("submitSource").addEventListener("click", async () => {
-        const submissionID = await fetchJSON("api/submission/write", {
-          "source": document.getElementById("source").value,
-          "language": document.getElementById("language").value,
-          "problem": params.get("fileName"),
-          "score": params.get("score")
+        // 提出ボタン
+        document.getElementById("submitSource").addEventListener("click", async () => {
+          const submissionID = await fetchJSON("api/submission/write", {
+            "source": document.getElementById("source").value,
+            "language": document.getElementById("language").value,
+            "problem": params.get("fileName"),
+            "score": params.get("score"),
+            "userId": localStorage.getItem("userId")
+          });
+          console.log(submissionID);
+          moveTo("submissionForm", {
+            "submissionID": submissionID
+          });
         });
-        console.log(submissionID);
-        moveTo("submissionForm", { "submissionID": submissionID });
-      });
+      } else {
+        document.getElementById("submissionTotal").remove();
+        document.body.innerHTML += "<br><br><br>ソースコードを提出するにはログインしてください。"
+      }
+
     }
 
     // ページ遷移
@@ -285,20 +303,22 @@
     <!-- サンプルを生成 -->
   </div>
 
-  <div>
-    <h4>言語</h4>
-    <select id="language"></select>
-    <textarea id="source" style="line-height: 12px; height: 134px; overflow: hidden;"></textarea>
-    <input type="checkbox" id="autoHeight">高さの自動調整<br>
-    <button id="submitSource">提出</button>
-  </div>
+  <span id="submissionTotal">
+    <div>
+      <h4>提出</h4>
+      <select id="language"></select>
+      <textarea id="source" style="line-height: 12px; height: 134px; overflow: hidden;"></textarea>
+      <input type="checkbox" id="autoHeight">高さの自動調整<br>
+      <button id="submitSource">提出</button>
+    </div>
 
-  <div style="display: none;">
-    <form id="submissionForm" action="submission.html" method="GET">
-      <input name="subid" type="text" id="submissionID">
-      <button type="submit"></button>
-    </form>
-  </div>
+    <div style="display: none;">
+      <form id="submissionForm" action="submission.html" method="GET">
+        <input name="subid" type="text" id="submissionID">
+        <button type="submit"></button>
+      </form>
+    </div>
+  </span>
 
 </body>
 
